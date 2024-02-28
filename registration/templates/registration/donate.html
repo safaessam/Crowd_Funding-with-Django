@@ -1,0 +1,7 @@
+<h2>Donate to {{ project.title }}</h2>
+<form method="post" action="{% url 'donate' project_id=project.id %}">
+    {% csrf_token %}
+    <label for="amount">Amount:</label>
+    <input type="text" id="amount" name="amount">
+    <button type="submit">Donate</button>
+</form>
