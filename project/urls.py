@@ -17,9 +17,14 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from registration.views import Registration, home
+from user_Profile.views import donations, projects, user_profile
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', home, name='home' ),
-    path('registration/', Registration.as_view(), name='registration' )
+    path('profile/', user_profile , name="user profile"),
+    path('projects', projects , name='projects'),
+    path('donations', donations , name='donations'),
+    path('registration/', Registration.as_view(), name='registration' ),
+    path('home/', home, name='home' ),
+
 ]
