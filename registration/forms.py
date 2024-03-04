@@ -1,7 +1,8 @@
 from django.contrib.auth import authenticate
+
 from django import forms
+
 from projects.models import Picture, Project
-from multiupload.fields import MultiFileField
 
 
 class MyUserForm(forms.Form):
@@ -49,21 +50,13 @@ class ProjectForm(forms.ModelForm):
             "details",
             "category",
             "target_amount",
-            # "start_time",
+            "start_time",
             "end_time",
         ]
-        # widgets = {
-        #     'start_time': forms.TextInput(attrs={'disabled': 'disabled'}),
-        # }
 
-# class PictureForm(forms.ModelForm):
-#     class Meta:
-#         model = Picture
-#         fields = ["image"]
-#         widgets = {"image": forms.ClearableFileInput()}
+
 class PictureForm(forms.ModelForm):
-    images = forms.FileField(widget=forms.FileInput(attrs={'multiple': True}), required=False)
-
     class Meta:
         model = Picture
-        fields = ["images"]
+        fields = ["image"]
+        widgets = {"image": forms.ClearableFileInput()}
