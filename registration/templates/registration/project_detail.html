@@ -1,0 +1,34 @@
+<h2>{{ project.title }}</h2>
+<p>{{ project.details }}</p>
+<p>Category: {{ project.category }}</p>
+<p>Total Target: {{ project.target_amount }}</p>
+<p>Average Rating: {{ average_rating }}</p>
+
+<h3>Pictures:</h3>
+{% for picture in project.pictures.all %}
+    <img src="{{ picture.image.url }}" alt="Project Picture" width="200">
+{% empty %}
+    <p>No pictures available.</p>
+{% endfor %}
+
+<h3>Tags:</h3>
+{% for tag in project.tags.all %}
+    <span>{{ tag.name }}</span>
+{% empty %}
+    <p>No tags available.</p>
+{% endfor %}
+
+<h3>Donations:</h3>
+{% for donation in project.donations.all %}
+    <p>{{ donation.user.username }} donated {{ donation.amount }}</p>
+{% empty %}
+    <p>No donations yet.</p>
+{% endfor %}
+
+<h3>Donate to the Project:</h3>
+<form method="post" action="{% url 'donate' project_id=project.id %}">
+    {% csrf_token %}
+    <label for="amount">Amount:</label>
+    <input type="text" id="amount" name="amount">
+    <button type="submit">Donate</button>
+</form>
