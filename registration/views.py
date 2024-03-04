@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from projects.models import Donation, Picture, Project
 # from django.contrib.auth.decorators import login_required
 from registration import models
-from .models import Picture, Project, Donation
 from .forms import ProjectForm, PictureForm
 from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import redirect, render
@@ -32,7 +32,7 @@ class Registration(View):
                 password=form.cleaned_data['password'],
                 mobile_phone=form.cleaned_data['mobile_phone'],
                 profile_picture=request.FILES.get('profile_picture'),
-                is_active=True
+                is_active=False
             )
             new_user.save()
             return redirect('signin')

@@ -7,7 +7,8 @@ class UserProfile(MyUser):
     birthdate = models.DateField(null=True, blank=True)
     facebook_profile = models.URLField(null=True, blank=True)
     country = models.CharField(max_length=100, null=True, blank=True)
-    projects = models.ForeignKey(Project, on_delete = models.PROTECT)
+    # projects = models.ForeignKey(Project, on_delete = models.PROTECT)
+    projects = models.ManyToManyField(Project)
     class Meta:
         verbose_name = 'User Profile'
         verbose_name_plural = 'User Profiles'
@@ -22,8 +23,8 @@ class UserProfile(MyUser):
 #     start_date = models.DateField(auto_now_add=True)
 #     end_date = models.DateField(blank=True, null=True)
 
-class Donation (models.Model):
-    user = models.ForeignKey(UserProfile ,on_delete=models.CASCADE)
-    amount = models.DecimalField(max_digits=8, decimal_places=2)
-    date = models.DateTimeField(auto_now_add=True)
-    message = models.CharField(max_length=100, blank=True)
+# class Donation (models.Model):
+#     user = models.ForeignKey(UserProfile ,on_delete=models.CASCADE)
+#     amount = models.DecimalField(max_digits=8, decimal_places=2)
+#     date = models.DateTimeField(auto_now_add=True)
+#     message = models.CharField(max_length=100, blank=True)

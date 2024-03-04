@@ -1,8 +1,8 @@
 from django.contrib.auth import authenticate
 
 from django import forms
-from django import forms
-from .models import Project, Picture
+
+from projects.models import Picture, Project
 
 class MyUserForm(forms.Form):
     first_name = forms.CharField(max_length=50)
