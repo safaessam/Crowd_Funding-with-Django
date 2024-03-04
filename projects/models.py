@@ -1,6 +1,6 @@
 from django.db import models
-
 from registration.models import MyUser
+from django.utils import timezone
 
 class Category(models.Model):
     name = models.CharField(max_length=50)
@@ -12,11 +12,11 @@ class Project(models.Model):
     title = models.CharField(max_length=50)
     details = models.TextField(max_length=255)
     category = models.ForeignKey(Category, on_delete=models.PROTECT) # Can't delete a category linked to a project
-    pictures = models.ForeignKey("Picture", on_delete=models.SET_NULL, null=True)
+    pictures = models.ForeignKey("Picture", on_delete=models.SET_NULL, null=True, blank=True)
     target_amount = models.DecimalField(max_digits=10, decimal_places=2)
     # donations = models.ManyToManyField('Donation', related_name="projects")
     tags = models.ManyToManyField('Tag')
-    start_time = models.DateTimeField(auto_now_add=True)
+    start_time = models.DateTimeField(default=timezone.now)
     end_time = models.DateTimeField()
     owner = models.ForeignKey(MyUser, on_delete=models.CASCADE) # deleting OwnerUser deletes all linked projects
     # comments = models.ManyToManyField('Comment', related_name='projects_comments')
