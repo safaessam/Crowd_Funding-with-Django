@@ -1,8 +1,8 @@
 from django.contrib.auth import authenticate
-
 from django import forms
-
 from projects.models import Picture, Project
+from multiupload.fields import MultiFileField
+
 
 class MyUserForm(forms.Form):
     first_name = forms.CharField(max_length=50)
@@ -12,7 +12,7 @@ class MyUserForm(forms.Form):
     confirm_password = forms.CharField(widget=forms.PasswordInput)
     mobile_phone = forms.CharField(max_length=11)
     profile_picture = forms.ImageField(required=False)
-  
+
     def clean(self):
         cleaned_data = super().clean()
         password = cleaned_data.get("password")
@@ -24,9 +24,8 @@ class MyUserForm(forms.Form):
         return cleaned_data
 
 
-
 class SignInForm(forms.Form):
-    email = forms.EmailField( )
+    email = forms.EmailField()
     password = forms.CharField(widget=forms.PasswordInput)
 
     def clean(self):
@@ -41,14 +40,30 @@ class SignInForm(forms.Form):
 
         return cleaned_data
 
+
 class ProjectForm(forms.ModelForm):
     class Meta:
         model = Project
-        fields = ['title', 'details', 'category', 'target_amount', 'start_time', 'end_time']
+        fields = [
+            "title",
+            "details",
+            "category",
+            "target_amount",
+            # "start_time",
+            "end_time",
+        ]
+        # widgets = {
+        #     'start_time': forms.TextInput(attrs={'disabled': 'disabled'}),
+        # }
 
+# class PictureForm(forms.ModelForm):
+#     class Meta:
+#         model = Picture
+#         fields = ["image"]
+#         widgets = {"image": forms.ClearableFileInput()}
 class PictureForm(forms.ModelForm):
+    images = forms.FileField(widget=forms.FileInput(attrs={'multiple': True}), required=False)
+
     class Meta:
         model = Picture
-        fields = ['image']
-        widgets = {'image': forms.ClearableFileInput()}
-        
+        fields = ["images"]

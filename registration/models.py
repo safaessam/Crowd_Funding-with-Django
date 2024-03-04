@@ -14,6 +14,22 @@ class MyUser(models.Model):
     def __str__(self):
         return self.email
 
+# def signup(request):
+#     if request.method == 'GET':
+#         return render(request, 'student/signup.html')
+
+#     if request.method == 'POST':
+#         email = request.POST['email']
+#         password = request.POST['psw']
+#         name = request.POST['name']
+
+#         if_val = MyUser.objects.filter(email=email)
+#         if if_val:
+#             return render(request, 'student/signup.html')
+
+#         User.objects.create_user(username=name, email=email, password=password)
+#         MyUser.objects.create(email=email, password=password, name=name)
+#         return redirect("signin")
 
 # class Project(models.Model):
 #     title = models.CharField(max_length=100)

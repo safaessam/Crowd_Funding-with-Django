@@ -16,7 +16,7 @@ class Project(models.Model):
     target_amount = models.DecimalField(max_digits=10, decimal_places=2)
     # donations = models.ManyToManyField('Donation', related_name="projects")
     tags = models.ManyToManyField('Tag')
-    start_time = models.DateTimeField()
+    start_time = models.DateTimeField(auto_now_add=True)
     end_time = models.DateTimeField()
     owner = models.ForeignKey(MyUser, on_delete=models.CASCADE) # deleting OwnerUser deletes all linked projects
     # comments = models.ManyToManyField('Comment', related_name='projects_comments')

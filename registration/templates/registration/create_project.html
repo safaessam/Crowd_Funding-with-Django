@@ -2,6 +2,6 @@
 <form method="post" action="{% url 'create_project' %}" enctype="multipart/form-data">
     {% csrf_token %}
     {{ project_form }}
-    {{ picture_form }}
+    {{ picture_form.as_p }}
     <button type="submit">Create Project</button>
 </form>
