@@ -1,17 +1,28 @@
 from django.views import View
+from django.views.generic import ListView
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
-from projects import models
-from registration.forms import MyUserForm, PictureForm, ProjectForm, SignInForm
+from django.utils import timezone
+from projects.models import Category, Project, Donation, Picture
+from .forms import MyUserForm, PictureForm, ProjectForm, SignInForm
 from registration.models import MyUser
-from projects.models import Donation, Picture, Project
 
+def category_projects(request, category_id):
+    category = get_object_or_404(Category, id=category_id)
+    projects = Project.objects.filter(category=category, end_time__gte=timezone.now())
+    
+    return render(request, 'registration/category_projects.html', {'category': category, 'projects': projects})
 
 def home(request):
-    # if request.user.is_authenticated:
-    return render(request, "registration/home.html")
-    # else:
-    # return redirect("signin")
+    latest_projects = Project.objects.filter(end_time__gte=timezone.now()).order_by('-start_time')[:5]
+    featured_projects = Project.objects.filter(is_featured=True, end_time__gte=timezone.now()).order_by('-start_time')[:5]
+    categories = Category.objects.all()
+
+    return render(request, "registration/home.html", {
+        'latest_projects': latest_projects,
+        'featured_projects': featured_projects,
+        'categories': categories,
+    })
 
 
 # class Registration(View):
@@ -131,7 +142,7 @@ def donate(request, project_id):
         )
         return redirect("registration/project_detail.html", project_id=project.id)
     return render(request, "donate.html", {"project": project})
-    
+
 def create_project(request):
     if request.method == "POST":
         project_form = ProjectForm(request.POST)
@@ -152,3 +163,4 @@ def create_project(request):
             "registration/create_project.html",
             {"project_form": project_form, "picture_form": picture_form},
         )
+    
