@@ -16,7 +16,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from registration.views import Registration, SignIn, create_project, donate, home, project_detail, signout
+from registration.views import Registration, SignIn, create_project, donate, home, project_detail, signout, category_projects
 # from user_Profile.views import donations, projects, user_profile
 
 urlpatterns = [ 
@@ -31,4 +31,6 @@ urlpatterns = [
     # path('profile/', user_profile , name="user profile"),
     # path('projects', projects , name='projects'),
     # path('donations', donations , name='donations'),
+    path('category_projects/<int:category_id>/', category_projects, name='category_projects'),
+
 ]

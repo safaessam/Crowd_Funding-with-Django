@@ -1,5 +1,5 @@
 from django.db import models
-from registration.models import MyUser
+from django.contrib.auth import get_user_model
 from django.utils import timezone
 
 class Category(models.Model):
@@ -11,17 +11,15 @@ class Category(models.Model):
 class Project(models.Model):
     title = models.CharField(max_length=50)
     details = models.TextField(max_length=255)
-    category = models.ForeignKey(Category, on_delete=models.PROTECT) # Can't delete a category linked to a project
+    category = models.ForeignKey(Category, on_delete=models.PROTECT)
     pictures = models.ForeignKey("Picture", on_delete=models.SET_NULL, null=True, blank=True)
     target_amount = models.DecimalField(max_digits=10, decimal_places=2)
-    # donations = models.ManyToManyField('Donation', related_name="projects")
     tags = models.ManyToManyField('Tag')
     start_time = models.DateTimeField(default=timezone.now)
     end_time = models.DateTimeField()
-    owner = models.ForeignKey(MyUser, on_delete=models.CASCADE) # deleting OwnerUser deletes all linked projects
-    # comments = models.ManyToManyField('Comment', related_name='projects_comments')
-    # ratings = models.ManyToManyField('Rating', related_name='projects_ratings')
+    owner = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)  # Use get_user_model()
     is_cancelled = models.BooleanField(default=False)
+    is_featured = models.BooleanField(default=False)
 
     def __str__(self):
         return self.title
@@ -43,17 +41,16 @@ class Tag(models.Model):
         return self.name
 
 class Comment(models.Model):
-    user = models.ForeignKey(MyUser, on_delete=models.CASCADE)
+    user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
     project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name='comments')
     text = models.TextField()
-    # replies = models.ForeignKey('self', on_delete=models.CASCADE, null=True, blank=True, related_name='replies')
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return f"{self.user.first_name} {self.user.last_name} - {self.project.title}"
 
 class Rating(models.Model):
-    user = models.ForeignKey(MyUser, on_delete=models.CASCADE)
+    user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
     project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name='ratings')
     value = models.IntegerField()
 
@@ -68,9 +65,15 @@ class Picture(models.Model):
 
 class Donation(models.Model):
     project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name="donations")
-    user = models.ForeignKey(MyUser, on_delete=models.CASCADE)
+    user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
     amount = models.DecimalField(max_digits=10, decimal_places=2)
     timestamp = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return f"{self.user.first_name} {self.user.last_name} donated {self.amount}"
+
+
+class FeaturedProject(models.Model):
+    project = models.ForeignKey(Project, on_delete=models.CASCADE)
+    project = models.ForeignKey(Project, on_delete=models.CASCADE)
+    rate = models.DecimalField(max_digits=5, decimal_places=2)
