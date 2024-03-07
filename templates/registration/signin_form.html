@@ -23,6 +23,16 @@
             {{ form.password }}
             <div class="error-message">{{ form.password.errors }}</div>
 
+            {% if form.non_field_errors %}
+            <div class="error-message">
+                <ul>
+                    {% for error in form.non_field_errors %}
+                    <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% endif %}
+
             <button type="submit">Sign In</button>
         </form>
         <p>

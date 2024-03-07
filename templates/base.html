@@ -27,8 +27,8 @@
                     <li><a href="{% url 'create_project' %}">Create a Project</a></li>
                 </div>
                 <div>
+                    <li><a href="#">{{ request.session.first_name }}'s Profile</a></li>
                     <li><a href="{% url 'signout' %}">Sign Out</a></li>
-                    <!-- <li><a href="#">{{ request.session.email}}'s Profile</a></li> -->
                 </div>
             </ul>
         </nav>
