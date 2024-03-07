@@ -1,9 +1,7 @@
 from django.views import View
-
 # from django.views.generic import ListView
 from django.shortcuts import render, redirect, get_object_or_404
 from django.utils import timezone
-from projects import models
 from projects.models import Category, Project, Donation, Picture
 from .forms import (
     EmailVerificationForm,
@@ -56,7 +54,6 @@ def Registration(request):
         form = RegistrationForm(request.POST, request.FILES)
         if form.is_valid():
             email = form.cleaned_data["email"]
-            # Check if email already exists
             if MyUser.objects.filter(email=email).exists():
                 form.add_error("email", "Email already exists.")
                 return render(
@@ -163,9 +160,8 @@ def create_project(request):
     )
 class VerifyEmail(View):
     def get(self, request):
-        # if not loggedIn, redirect
-        email = request.session.get("user_email")
-        if not email:
+        logged_in = request.session.get("user_email")
+        if not logged_in:
             return redirect("signin")
         form = EmailVerificationForm()
 
