@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Verify Email{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/verify_email.css' %}">
+{% endblock %}
+
+{% block body %}
+<div class="container">
+    <h2>Verify Email</h2>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="error-message">{{ form.errors }}</div>
+        <label for="id_password">Code:</label>
+        {{ form.code }}
+        <div class="error-message">{{ form.code.errors }}</div>
+    </form>
+    <p>
+        Don't have an account? <a href="{% url 'registration' %}">Sign Up</a>
+    </p>
+</div>
+{% endblock %}
