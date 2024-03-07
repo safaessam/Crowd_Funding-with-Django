@@ -1,53 +1,127 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Registration Form</title>
-    <link rel="stylesheet" href="{% static 'css/registration.css' %}">
-</head>
+    <link rel="stylesheet" href="{% static 'css/registration.css' %}" />
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background: #63c88a;
+        background: linear-gradient(135deg, #63c88a, #913b3d);
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+      }
 
-<body>
-    <div class="container" >
-        <h2>Create New Account</h2>
-        <form method="post" enctype="multipart/form-data">
-            {% csrf_token %}
-            <label for="id_first_name">First Name:</label>
-            {{ form.first_name }}
-            <div class="error-message">{{ form.first_name.errors }}</div>
+      .container {
+        background: rgba(0, 0, 0, 0.15);
+        border-radius: 16px;
+        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        backdrop-filter: blur(5px);
+        -webkit-backdrop-filter: blur(5px);
+        padding: 20px;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        width: 300px;
+      }
 
-            <label for="id_last_name">Last Name:</label>
-            {{ form.last_name }}
-            <div class="error-message">{{ form.last_name.errors }}</div>
+      h2 {
+        text-align: center;
+        margin-bottom: 20px;
+      }
 
-            <label for="id_email">Email:</label>
-            {{ form.email }}
-            <div class="error-message">{{ form.email.errors }}</div>
+      label {
+        font-weight: bold;
+      }
 
-            <label for="id_password">Password:</label>
-            {{ form.password }}
-            <div class="error-message">{{ form.password.errors }}</div>
+      input[type="text"],
+      input[type="password"],
+      input[type="email"] {
+        width: 100%;
+        padding: 8px;
+        margin-bottom: 15px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+      }
 
-            <label for="id_confirm_password">Confirm Password:</label>
-            {{ form.confirm_password }}
-            <div class="error-message">{{ form.confirm_password.errors }}</div>
+      .error-message {
+        color: red;
+        margin-bottom: 10px;
+      }
 
-            <label for="id_mobile_phone">Mobile Phone:</label>
-            {{ form.mobile_phone }}
-            <div class="error-message">{{ form.mobile_phone.errors }}</div>
+      button[type="submit"] {
+        background-color: #20c728;
+        color: #fff;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        width: 100%;
+      }
 
-            <label for="id_profile_picture">Profile Picture:</label>
-            {{ form.profile_picture }}
-            <div class="error-message">{{ form.profile_picture.errors }}</div>
+      button[type="submit"]:hover {
+        background-color: #45a049;
+      }
 
-            <button type="submit">Create Account</button>
-        </form>
-        <p>
-            Already have an account? <a href="{% url 'signin' %}">Sign In</a>
-        </p>
+      p {
+        margin-top: 15px;
+        text-align: center;
+      }
+
+      a {
+        color: #007bff;
+        text-decoration: none;
+      }
+
+      a:hover {
+        text-decoration: underline;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <h2>Create New Account</h2>
+      <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <label for="id_first_name">First Name:</label>
+        {{ form.first_name }}
+        <div class="error-message">{{ form.first_name.errors }}</div>
+
+        <label for="id_last_name">Last Name:</label>
+        {{ form.last_name }}
+        <div class="error-message">{{ form.last_name.errors }}</div>
+
+        <label for="id_email">Email:</label>
+        {{ form.email }}
+        <div class="error-message">{{ form.email.errors }}</div>
+
+        <label for="id_password">Password:</label>
+        {{ form.password }}
+        <div class="error-message">{{ form.password.errors }}</div>
+
+        <label for="id_confirm_password">Confirm Password:</label>
+        {{ form.confirm_password }}
+        <div class="error-message">{{ form.confirm_password.errors }}</div>
+
+        <label for="id_mobile_phone">Mobile Phone:</label>
+        {{ form.mobile_phone }}
+        <div class="error-message">{{ form.mobile_phone.errors }}</div>
+
+        <label for="id_profile_picture">Profile Picture:</label>
+        {{ form.profile_picture }}
+        <div class="error-message">{{ form.profile_picture.errors }}</div>
+
+        <button type="submit">Create Account</button>
+      </form>
+      <p>Already have an account? <a href="{% url 'signin' %}">Sign In</a></p>
     </div>
-</body>
-
+  </body>
 </html>
