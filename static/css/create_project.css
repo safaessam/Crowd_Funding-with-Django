@@ -1,0 +1,39 @@
+/* Additional custom styles for the create project form */
+
+.container {
+    background-color: #f9f9f9;
+    padding: 20px;
+  }
+  
+  .form-group label {
+    display: block;
+    margin-bottom: 5px;
+  }
+  
+  .form-group input[type="text"],
+  .form-group textarea,
+  .form-group select {
+    font-size: 16px;
+  }
+  
+  .form-group input[type="text"],
+  .form-group textarea {
+    background-color: #fff;
+  }
+  
+  .form-group select {
+    background-color: #403939;
+    appearance: none;
+  }
+  
+  button[type="submit"] {
+    font-size: 18px;
+    font-weight: bold;
+    text-transform: uppercase;
+  }
+  
+  button[type="submit"]:focus,
+  button[type="submit"]:hover {
+    background-color: #b300aa;
+    color: #fff;
+  }
