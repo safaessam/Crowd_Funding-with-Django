@@ -33,11 +33,13 @@
 
       h2 {
         text-align: center;
+        color: #1e1e1e;
         margin-bottom: 20px;
       }
 
       label {
         font-weight: bold;
+        color: #1e1e1e;
       }
 
       input[type="text"],
@@ -52,6 +54,29 @@
         box-sizing: border-box;
       }
 
+      .custom-file-upload {
+        display: inline-block;
+        position: relative;
+        overflow: hidden;
+        width: fit-content;
+        background-color: #007bff35;
+        color: #1e1e1e;
+        margin: 10px 0;
+        padding: 8px;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+
+      .custom-file-upload input[type="file"] {
+        position: absolute;
+        opacity: 0;
+        cursor: pointer;
+      }
+
+      .custom-file-upload:hover {
+        background-color: #6a7c9070;
+      }
+
       .error-message {
         color: red;
         margin-bottom: 10px;
@@ -62,13 +87,14 @@
         color: #fff;
         padding: 10px 20px;
         border: none;
-        border-radius: 4px;
+        border-radius: 15px;
         cursor: pointer;
         width: 100%;
+        transition: 0.3s ease;
       }
 
       button[type="submit"]:hover {
-        background-color: #45a049;
+        background-color: #1cac23e0;
       }
 
       p {
@@ -79,6 +105,7 @@
       a {
         color: #007bff;
         text-decoration: none;
+        font-weight: 600;
       }
 
       a:hover {
@@ -116,8 +143,9 @@
         {{ form.mobile_phone }}
         <div class="error-message">{{ form.mobile_phone.errors }}</div>
 
-        <label for="id_profile_picture">Profile Picture:</label>
-        {{ form.profile_picture }}
+        <label for="id_profile_picture" class="custom-file-upload"
+          >Upload Profile Picture {{ form.profile_picture }}
+        </label>
         <div class="error-message">{{ form.profile_picture.errors }}</div>
 
         <button type="submit">Create Account</button>

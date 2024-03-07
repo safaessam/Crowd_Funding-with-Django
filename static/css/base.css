@@ -1,40 +1,41 @@
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
-    padding: 0;
+  font-family: Arial, sans-serif;
+  background: #63c88a;
+  background: linear-gradient(135deg, #63c88a, #913b3d);
+  padding: 0;
 }
 
 .navbar {
-    list-style-type: none;
-    margin: 0;
-    padding: 5px;
-    overflow: hidden;
-    background-color: #333;
-    display: flex;
-    justify-content: space-between;
+  list-style-type: none;
+  margin: 0;
+  padding: 5px;
+  overflow: hidden;
+  background-color: #333;
+  display: flex;
+  justify-content: space-between;
 }
 
 .navbar li {
-    float: left;
+  float: left;
 }
 
 .navbar li a {
-    display: block;
-    font-size: 1.1rem;
-    color: #fff;
-    font-weight: 600;
-    text-align: center;
-    padding: 10px 18px;
-    margin: 0 5px;
-    text-decoration: none;
-    transition: 0.5s ease;
-    border-radius: 20px;
+  display: block;
+  font-size: 1.1rem;
+  color: #fff;
+  font-weight: 600;
+  text-align: center;
+  padding: 10px 18px;
+  margin: 0 5px;
+  text-decoration: none;
+  transition: 0.5s ease;
+  border-radius: 20px;
 }
 
 .navbar li a:hover {
-    background-color: #ddd;
-    border-radius: 20px;
-    color: black;
+  background-color: #ddd;
+  border-radius: 20px;
+  color: black;
 }
 
 footer {
