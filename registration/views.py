@@ -1,9 +1,11 @@
 import random
+from random import randint  # Import the 'random' module
 from django.views import View
 from django.views.generic import ListView
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
 from django.utils import timezone
+from projects import models
 from projects.models import Category, Project, Donation, Picture
 from .forms import EmailVerificationForm, MyUserForm, PictureForm, ProjectForm, SignInForm
 from registration.models import MyUser, UserEmailVerification
@@ -73,18 +75,18 @@ def home(request):
 
 #         # return render(request, "registration/registration_form.html", {"form": form})
 
-class Registration(View):
+def Registration(request):
     form_class = MyUserForm
     template_name = 'registration.html'
 
-    def get(self, request):
-        form = self.form_class()
+    if request.method == 'GET':
+        form = form_class()
         return render(request, "registration/registration_form.html", {"form": form})
 
-    def post(self, request):
-        form = self.form_class(request.POST, request.FILES)
+    elif request.method == 'POST':
+        form = form_class(request.POST, request.FILES)
         if form.is_valid():
-            random_code = random.randint(100000, 999999)
+            # random_code = randint(100000, 999999)
             new_user = MyUser(
                 first_name=form.cleaned_data['first_name'],
                 last_name=form.cleaned_data['last_name'],
@@ -97,13 +99,14 @@ class Registration(View):
             new_verification = UserEmailVerification(
                 email = new_user.email
             )
-            new_verification.generateCode()
+            new_verification.generateCode()  # Pass the generated code directly
             new_verification.sendCode()
             new_user.save()
             # Send email verification
             request.session['user_email'] = new_user.email
             return redirect('verify_email')
         return render(request, "registration/registration_form.html", {"form": form})
+
 
 class SignIn(View):
     def get(self, request):
@@ -197,7 +200,7 @@ class VerifyEmail(View):
             userEmailVerification = UserEmailVerification.objects.get(email=email)
             
             expireTime = userEmailVerification.expireTime
-            if datetime.now() > expireTime:
+            if timezone.now() > expireTime:
                 form.add_error(None, "Code expired, a new code was sent to your email!")
                 userEmailVerification.generateCode()
                 userEmailVerification.sendCode()

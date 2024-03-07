@@ -22,7 +22,7 @@ from registration.views import Registration, SignIn, VerifyEmail, create_project
 urlpatterns = [ 
     path('admin/', admin.site.urls),
     path('', home, name='home' ),
-    path('registration/', Registration.as_view(), name='registration' ),
+    path('registration/', Registration, name='registration' ),
     path('signin/', SignIn.as_view(), name='signin'),
     path('signout/', signout, name='signout'),
     path('project_detail/<int:project_id>/', project_detail, name='project_detail'),   
