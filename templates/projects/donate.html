@@ -7,10 +7,13 @@ Donate to {{ project.title }}
 
 {% block body %}
 <h2>Donate to {{ project.title }}</h2>
-<form method="post" action="{% url 'donate' project_id=project.id %}">
+<form method="post" action="{% url 'project_detail' project_id=project.id %}">
     {% csrf_token %}
     <label for="amount">Amount:</label>
     <input type="text" id="amount" name="amount">
     <button type="submit">Donate</button>
 </form>
 {% endblock %}
+{% block footer %}
+        <p>&copy; 2024 Crowd-Funding Web app. All rights reserved ITI.</p>
+        {% endblock footer %}

@@ -1,45 +1,63 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}{{ project.title }}{% endblock %}
-
 {% block css %}
 <link rel="stylesheet" href="{% static 'css/project_detail.css' %}">
+
+
+{% endblock %}
+
+{% block title %}
+{{ project.title }}
 {% endblock %}
 
 {% block body %}
-<h2>{{ project.title }}</h2>
-<p>{{ project.details }}</p>
-<p>Category: {{ project.category }}</p>
-<p>Total Target: {{ project.target_amount }}</p>
-<p>Average Rating: {{ average_rating }}</p>
+<div class="container">
+    <h1>{{ project.title }}</h1>
+    <h3>{{ project.details }}</h3>
+    <h3>Category:</h3> {{ project.category }}
+    <h3>Total Target: </h3>{{ project.target_amount }}
+    <h3>Average Rating: </h3>{{ average_rating }}
 
-<h3>Pictures:</h3>
-{% for picture in project.pictures.all %}
-<img src="{{ picture.image.url }}" alt="Project Picture" width="200">
-{% empty %}
-<p>No pictures available.</p>
-{% endfor %}
+    <h3>Pictures:</h3>
+    <div class="row">
+        {% for picture in project.pictures.all %}
+        <div class="col-md-4">
+            <img src="{{ picture.image.url }}" alt="Project Picture" class="img-fluid">
+        </div>
+        {% empty %}
+        <div class="col">
+            <p>No pictures available.</p>
+        </div>
+        {% endfor %}
+    </div>
 
-<h3>Tags:</h3>
-{% for tag in project.tags.all %}
-<span>{{ tag.name }}</span>
-{% empty %}
-<p>No tags available.</p>
-{% endfor %}
+    <h3>Tags:</h3>
+    <div class="tags">
+        {% for tag in project.tags.all %}
+        <span class="badge badge-secondary">{{ tag.name }}</span>
+        {% empty %}
+        <p>No tags available.</p>
+        {% endfor %}
+    </div>
 
-<h3>Donations:</h3>
-{% for donation in project.donations.all %}
-<p>{{ donation.user.username }} donated {{ donation.amount }}</p>
-{% empty %}
-<p>No donations yet.</p>
-{% endfor %}
+    <h3>Donations:</h3>
+    <div class="donations">
+        {% for donation in project.donations.all %}
+        <p>{{ donation.user.username }} donated {{ donation.amount }}</p>
+        {% empty %}
+        <p>No donations yet.</p>
+        {% endfor %}
+    </div>
 
-<h3>Donate to the Project:</h3>
-<form method="post" action="{% url 'donate' project_id=project.id %}">
-    {% csrf_token %}
-    <label for="amount">Amount:</label>
-    <input type="text" id="amount" name="amount">
-    <button type="submit">Donate</button>
-</form>
+    <h3>Donate to the Project:</h3>
+    <form method="post" action="{% url 'donate' project_id=project.id %}">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="amount">Amount:</label>
+            <input type="text" id="amount" name="amount" class="form-control">
+        </div>
+        <button type="submit" class="btn btn-primary">Donate</button>
+    </form>
+</div>
 {% endblock %}
