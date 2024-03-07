@@ -70,7 +70,7 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
             ],
         },
-    },
+    }
 ]
 
 WSGI_APPLICATION = 'project.wsgi.application'
@@ -148,3 +148,5 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = 'amraboelmagdhussien@gmail.com'
 EMAIL_HOST_PASSWORD = 'cwqk dxkj mlew gucp'
 EMAIL_PORT = 587
+
+# AUTH_USER_MODEL = 'profiles.UserProfile'

@@ -1,0 +1,22 @@
+{% comment %} {% extends 'base.html' %}
+{% load static %} {% endcomment %}
+
+<h1>{{ user.username }}'s Profile</h1>
+
+<p>Name: {{ user.username }}</p>
+<p>Birthdate: {{ user.birthdate }}</p>
+<p>Facebook: <a href="{{ user.facebook_profile }}">{{ user.facebook_profile }}</a></p>
+<p>Country: {{ user.country }}</p>
+
+<h2>Edit Profile</h2>
+<form method="post" action="{% url 'profiles:profile_edit' %}">
+    {% csrf_token %}
+    <button type="submit">Save Changes</button>
+</form>
+
+<h2>Delete Account</h2>
+<form method="post" action="{% url 'profiles:account_delete' %}">
+    {% csrf_token %}
+    <p>Are you sure you want to delete your account?</p>
+    <button type="submit">Confirm Deletion</button>
+</form>

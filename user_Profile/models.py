@@ -3,7 +3,7 @@ from projects.models import Project
 from registration.models import MyUser
 
 
-class UserProfile(MyUser):
+class UserProfile(MyUser): # Abstract user
     birthdate = models.DateField(null=True, blank=True)
     facebook_profile = models.URLField(null=True, blank=True)
     country = models.CharField(max_length=100, null=True, blank=True)

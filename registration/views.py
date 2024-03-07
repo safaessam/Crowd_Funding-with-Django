@@ -121,7 +121,7 @@ def project_detail(request, project_id):
     average_rating = project.average_rating()
     return render(
         request,
-        "project_detail.html",
+        "projects/project_detail.html",
         {"project": project, "average_rating": average_rating},
     )
 
