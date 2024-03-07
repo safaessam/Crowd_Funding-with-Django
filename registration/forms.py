@@ -60,3 +60,14 @@ class PictureForm(forms.ModelForm):
         model = Picture
         fields = ["image"]
         widgets = {"image": forms.ClearableFileInput()}
+
+
+
+class EmailVerificationForm(forms.Form):
+    code = forms.CharField(max_length=6)
+    def clean(self):
+        cleaned_data = super().clean()
+        code = cleaned_data.get("code")
+        if len(code) != 6:
+            raise forms.ValidationError("Invalid code.")
+        return cleaned_data

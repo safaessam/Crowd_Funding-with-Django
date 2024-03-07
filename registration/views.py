@@ -1,11 +1,14 @@
+import random
 from django.views import View
 from django.views.generic import ListView
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
 from django.utils import timezone
 from projects.models import Category, Project, Donation, Picture
-from .forms import MyUserForm, PictureForm, ProjectForm, SignInForm
-from registration.models import MyUser
+from .forms import EmailVerificationForm, MyUserForm, PictureForm, ProjectForm, SignInForm
+from registration.models import MyUser, UserEmailVerification
+
+from datetime import datetime, timedelta
 
 def category_projects(request, category_id):
     category = get_object_or_404(Category, id=category_id)
@@ -81,17 +84,25 @@ class Registration(View):
     def post(self, request):
         form = self.form_class(request.POST, request.FILES)
         if form.is_valid():
+            random_code = random.randint(100000, 999999)
             new_user = MyUser(
                 first_name=form.cleaned_data['first_name'],
                 last_name=form.cleaned_data['last_name'],
                 email=form.cleaned_data['email'],
                 password=form.cleaned_data['password'],
                 mobile_phone=form.cleaned_data['mobile_phone'],
-                profile_picture=form.cleaned_data['profile_picture']
+                profile_picture=form.cleaned_data['profile_picture'],
+                is_active = True
             )
-            new_user.is_active = True
+            new_verification = UserEmailVerification(
+                email = new_user.email
+            )
+            new_verification.generateCode()
+            new_verification.sendCode()
             new_user.save()
-            return redirect('home')
+            # Send email verification
+            request.session['user_email'] = new_user.email
+            return redirect('verify_email')
         return render(request, "registration/registration_form.html", {"form": form})
 
 class SignIn(View):
@@ -107,6 +118,7 @@ class SignIn(View):
             email = form.cleaned_data.get("email")
             password = form.cleaned_data.get("password")
             user = authenticate(request, username=email, password=password)
+            # Add email verification
             if user:
                 login(request, user)
                 return redirect("home")
@@ -163,4 +175,36 @@ def create_project(request):
             "registration/create_project.html",
             {"project_form": project_form, "picture_form": picture_form},
         )
-    
+
+class VerifyEmail(View):
+    def get(self, request):
+        # if not loggedIn, redirect
+        email = request.session.get('user_email')
+        if not email:
+            return redirect("signin")
+        form = EmailVerificationForm()
+        
+        return render(request, "registration/verify_email.html", {"form": form})
+
+    def post(self, request):
+        form = EmailVerificationForm(request.POST)
+        email = request.session.get('user_email')
+        if not email:
+            return redirect("signin")
+        if form.is_valid():
+            code = form.cleaned_data["code"]
+            user = MyUser.objects.get(email=email)
+            userEmailVerification = UserEmailVerification.objects.get(email=email)
+            
+            expireTime = userEmailVerification.expireTime
+            if datetime.now() > expireTime:
+                form.add_error(None, "Code expired, a new code was sent to your email!")
+                userEmailVerification.generateCode()
+                userEmailVerification.sendCode()
+            if code == userEmailVerification.code:
+                user.isEmailVerified = True
+                user.save()
+                return redirect("home")
+            else:
+                form.add_error(None, "Invalid code")
+        return render(request, "registration/verify_email.html", {"form": form})

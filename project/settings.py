@@ -137,3 +137,9 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'amraboelmagdhussien@gmail.com'
+EMAIL_HOST_PASSWORD = 'cwqk dxkj mlew gucp'
+EMAIL_PORT = 587
