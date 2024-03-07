@@ -1,7 +1,5 @@
-import random
-from random import randint  # Import the 'random' module
 from django.views import View
-from django.views.generic import ListView
+# from django.views.generic import ListView
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
 from django.utils import timezone
@@ -10,13 +8,12 @@ from projects.models import Category, Project, Donation, Picture
 from .forms import EmailVerificationForm, MyUserForm, PictureForm, ProjectForm, SignInForm
 from registration.models import MyUser, UserEmailVerification
 
-from datetime import datetime, timedelta
 
 def category_projects(request, category_id):
     category = get_object_or_404(Category, id=category_id)
     projects = Project.objects.filter(category=category, end_time__gte=timezone.now())
     
-    return render(request, 'registration/category_projects.html', {'category': category, 'projects': projects})
+    return render(request, 'projects/category_projects.html', {'category': category, 'projects': projects})
 
 def home(request):
     latest_projects = Project.objects.filter(end_time__gte=timezone.now()).order_by('-start_time')[:5]
@@ -29,51 +26,6 @@ def home(request):
         'categories': categories,
     })
 
-
-# class Registration(View):
-#     def get(self, request):
-#         form = MyUserForm()
-#         return render(request, "registration/registration_form.html", {"form": form})
-
-#     def post(self, request):
-#         form = MyUserForm(request.POST, request.FILES)
-#         # if_val = MyUser.objects.filter(email=email)
-
-#         # if form.is_valid():
-#         # new_user = MyUser(
-#         first_name = (form.cleaned_data["first_name"].title(),)
-#         last_name = (form.cleaned_data["last_name"].title(),)
-#         email = (form.cleaned_data["email"],)
-#         password = (form.cleaned_data["password"],)
-#         mobile_phone = (form.cleaned_data["mobile_phone"],)
-#         profile_picture = (request.FILES.get("profile_picture"),)
-#         is_active = (False,)
-#         name = first_name + " " + last_name
-#         # )
-#         # new_user.save()
-#         if_val = MyUser.objects.filter(email=email)
-#         if if_val:
-#             return render(request, "registration/registration_form.html", {"form": form})
-#         User.objects.create_user(
-#             username=name,
-#             email=email,
-#             password=password,
-#             phone=mobile_phone,
-#             profile_picture=profile_picture,
-#             validate=is_active,
-#         )
-#         MyUser.objects.create(
-#             username=name,
-#             email=email,
-#             password=password,
-#             phone=mobile_phone,
-#             profile_picture=profile_picture,
-#             validate=is_active,
-#         )
-
-#         return redirect("signin")
-
-#         # return render(request, "registration/registration_form.html", {"form": form})
 
 def Registration(request):
     form_class = MyUserForm
@@ -143,7 +95,7 @@ def project_detail(request, project_id):
     average_rating = project.reviews.aggregate(models.Avg("rating"))["rating__avg"]
     return render(
         request,
-        "registration/project_detail.html",
+        "projects/project_detail.html",
         {"project": project, "average_rating": average_rating},
     )
 
@@ -155,7 +107,7 @@ def donate(request, project_id):
         donation = Donation.objects.create(
             project=project, user=request.user, amount=amount
         )
-        return redirect("registration/project_detail.html", project_id=project.id)
+        return redirect("projects/project_detail.html", project_id=project.id)
     return render(request, "donate.html", {"project": project})
 
 def create_project(request):
@@ -164,18 +116,18 @@ def create_project(request):
         picture_form = PictureForm(request.POST, request.FILES)
         if project_form.is_valid() and picture_form.is_valid():
             project = project_form.save(commit=False)
-            project.owner = request.user #Built-in User
+            project.owner = request.session['user_email']
             project.save()
             for f in request.FILES.getlist("images"):
                 picture = Picture(project=project, image=f)
                 picture.save()
-            return redirect("registration/project_detail.html", project_id=project.id)
+            return redirect("projects/project_detail.html", project_id=project.id)
     else:
         project_form = ProjectForm()
         picture_form = PictureForm()
         return render(
             request,
-            "registration/create_project.html",
+            "projects/create_project.html",
             {"project_form": project_form, "picture_form": picture_form},
         )
 
