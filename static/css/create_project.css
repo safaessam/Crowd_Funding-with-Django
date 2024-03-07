@@ -1,39 +1,52 @@
-/* Additional custom styles for the create project form */
-
 .container {
-    background-color: #f9f9f9;
-    padding: 20px;
-  }
-  
-  .form-group label {
-    display: block;
-    margin-bottom: 5px;
-  }
-  
-  .form-group input[type="text"],
-  .form-group textarea,
-  .form-group select {
-    font-size: 16px;
-  }
-  
-  .form-group input[type="text"],
-  .form-group textarea {
-    background-color: #fff;
-  }
-  
-  .form-group select {
-    background-color: #403939;
-    appearance: none;
-  }
-  
-  button[type="submit"] {
-    font-size: 18px;
-    font-weight: bold;
-    text-transform: uppercase;
-  }
-  
-  button[type="submit"]:focus,
-  button[type="submit"]:hover {
-    background-color: #b300aa;
-    color: #fff;
-  }
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #cbc3c3;
+  border-radius: 5px;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+label {
+  font-weight: bold;
+
+}
+
+input[type="text"],
+textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+button[type="submit"] {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button[type="submit"]:hover {
+  background-color: #0056b3;
+}
+
+h2 {
+  font-size: 40px;
+  font-weight: bold;
+  margin-bottom: 15px;
+  color: #0056b3;
+  text-align: center;
+}
