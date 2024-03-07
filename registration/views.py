@@ -50,6 +50,7 @@ def home(request):
     else:
         return redirect("signin")
 
+
 def Registration(request):
     if request.method == "POST":
         form = RegistrationForm(request.POST, request.FILES)
@@ -57,9 +58,11 @@ def Registration(request):
             email = form.cleaned_data["email"]
             # Check if email already exists
             if MyUser.objects.filter(email=email).exists():
-                form.add_error('email', 'Email already exists.')
-                return render(request, "registration/registration_form.html", {"form": form})
-            
+                form.add_error("email", "Email already exists.")
+                return render(
+                    request, "registration/registration_form.html", {"form": form}
+                )
+
             new_user = MyUser.objects.create(
                 first_name=form.cleaned_data["first_name"],
                 last_name=form.cleaned_data["last_name"],
@@ -115,10 +118,10 @@ def signout(request):
 
 def project_detail(request, project_id):
     project = get_object_or_404(Project, id=project_id)
-    average_rating = project.reviews.aggregate(models.Avg("rating"))["rating__avg"]
+    average_rating = project.average_rating()
     return render(
         request,
-        "projects/project_detail.html",
+        "project_detail.html",
         {"project": project, "average_rating": average_rating},
     )
 
@@ -130,7 +133,7 @@ def donate(request, project_id):
         donation = Donation.objects.create(
             project=project, user=request.user, amount=amount
         )
-        return redirect("projects/project_detail.html", project_id=project.id)
+        return redirect("project_detail.html", project_id=project.id)
     return render(request, "donate.html", {"project": project})
 
 
@@ -140,20 +143,25 @@ def create_project(request):
         picture_form = PictureForm(request.POST, request.FILES)
         if project_form.is_valid() and picture_form.is_valid():
             project = project_form.save(commit=False)
-            project.owner = request.session["user_email"]
-            project.save()
-            for f in request.FILES.getlist("images"):
-                picture = Picture(project=project, image=f)
-                picture.save()
-            return redirect("projects/project_detail.html", project_id=project.id)
+            user_email = request.session.get("user_email")
+            if user_email:
+                user = MyUser.objects.get(email=user_email)
+                project.owner = user
+                project.save()
+                for f in request.FILES.getlist("images"):
+                    picture = Picture(project=project, image=f)
+                    picture.save()
+                return redirect("project_detail", project_id=project.id)
+            else:
+                pass
     else:
         project_form = ProjectForm()
         picture_form = PictureForm()
-        return render(
-            request,
-            "projects/create_project.html",
-            {"project_form": project_form, "picture_form": picture_form},
-        )
+    return render(
+        request,
+        "projects/create_project.html",
+        {"project_form": project_form, "picture_form": picture_form},
+    )
 
 
 class VerifyEmail(View):

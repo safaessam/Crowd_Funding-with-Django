@@ -2,6 +2,8 @@ from django.db import models
 from django.contrib.auth import get_user_model
 from django.utils import timezone
 
+from registration.models import MyUser
+
 class Category(models.Model):
     name = models.CharField(max_length=50)
 
@@ -17,7 +19,7 @@ class Project(models.Model):
     tags = models.ManyToManyField('Tag')
     start_time = models.DateTimeField(default=timezone.now)
     end_time = models.DateTimeField()
-    owner = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)  # Use get_user_model()
+    owner = models.ForeignKey(MyUser, on_delete=models.CASCADE)
     is_cancelled = models.BooleanField(default=False)
     is_featured = models.BooleanField(default=False)
 
