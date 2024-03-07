@@ -64,8 +64,8 @@ def Registration(request):
                 )
 
             new_user = MyUser.objects.create(
-                first_name=form.cleaned_data["first_name"],
-                last_name=form.cleaned_data["last_name"],
+                first_name=form.cleaned_data["first_name"].title(),
+                last_name=form.cleaned_data["last_name"].title(),
                 email=email,
                 password=form.cleaned_data["password"],
                 mobile_phone=form.cleaned_data["mobile_phone"],
