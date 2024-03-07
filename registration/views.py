@@ -115,26 +115,25 @@ def signout(request):
     request.session.clear()
     return redirect("signin")
 
-
 def project_detail(request, project_id):
     project = get_object_or_404(Project, id=project_id)
     average_rating = project.average_rating()
     return render(
         request,
-        "project_detail.html",
-        {"project": project, "average_rating": average_rating},
+        "projects/project_detail.html",
+        {"project": project, "average_rating": average_rating}
     )
 
 
 def donate(request, project_id):
     project = get_object_or_404(Project, id=project_id)
     if request.method == "POST":
-        amount = request.POST["amount"]
+        amount = request.POST.get("amount")  
         donation = Donation.objects.create(
             project=project, user=request.user, amount=amount
         )
-        return redirect("project_detail.html", project_id=project.id)
-    return render(request, "donate.html", {"project": project})
+        return redirect("project_detail", project_id=project.id)
+    return render(request, "projects/donate.html", {"project": project})
 
 
 def create_project(request):
@@ -147,23 +146,21 @@ def create_project(request):
             if user_email:
                 user = MyUser.objects.get(email=user_email)
                 project.owner = user
-                project.save()
-                for f in request.FILES.getlist("images"):
-                    picture = Picture(project=project, image=f)
-                    picture.save()
-                return redirect("project_detail", project_id=project.id)
-            else:
-                pass
+            project.save()
+            for f in request.FILES.getlist("images"):
+                picture = Picture(project=project, image=f)
+                picture.save()
+            return redirect("project_detail", project_id=project.id)
+        else:
+            pass
     else:
         project_form = ProjectForm()
         picture_form = PictureForm()
     return render(
         request,
         "projects/create_project.html",
-        {"project_form": project_form, "picture_form": picture_form},
+        {"project_form": project_form, "picture_form": picture_form}
     )
-
-
 class VerifyEmail(View):
     def get(self, request):
         # if not loggedIn, redirect
