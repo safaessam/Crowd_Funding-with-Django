@@ -4,12 +4,11 @@ from django.db import models
 from django.core.mail import send_mail
 
 
-
 # Create your models here.
 class MyUser(models.Model):
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
-    email = models.EmailField(unique=True)
+    email = models.EmailField()
     password = models.CharField(max_length=30)
     mobile_phone = models.CharField(max_length=11)
     profile_picture = models.ImageField(

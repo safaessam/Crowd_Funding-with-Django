@@ -1,18 +1,19 @@
 from django.contrib.auth import authenticate
-
 from django import forms
-
 from projects.models import Picture, Project
+from registration.models import MyUser
 
 
-class MyUserForm(forms.Form):
-    first_name = forms.CharField(max_length=50)
-    last_name = forms.CharField(max_length=50)
-    email = forms.EmailField()
-    password = forms.CharField(widget=forms.PasswordInput)
-    confirm_password = forms.CharField(widget=forms.PasswordInput)
-    mobile_phone = forms.CharField(max_length=11)
-    profile_picture = forms.ImageField(required=False)
+class RegistrationForm(forms.ModelForm):
+    confirm_password = forms.CharField(max_length=30, widget=forms.PasswordInput)
+
+    class Meta:
+        model = MyUser
+        fields = ['first_name', 'last_name', 'email', 'password', 'confirm_password', 'mobile_phone', 'profile_picture']
+        widgets = {
+            'password': forms.PasswordInput(),
+            'profile_picture': forms.FileInput(),
+        }
 
     def clean(self):
         cleaned_data = super().clean()
@@ -20,26 +21,12 @@ class MyUserForm(forms.Form):
         confirm_password = cleaned_data.get("confirm_password")
 
         if password != confirm_password:
-            raise forms.ValidationError("Passwords do not match.")
-
-        return cleaned_data
+            raise forms.ValidationError("Passwords do not match")
 
 
 class SignInForm(forms.Form):
     email = forms.EmailField()
     password = forms.CharField(widget=forms.PasswordInput)
-
-    def clean(self):
-        cleaned_data = super().clean()
-        email = cleaned_data.get("email")
-        password = cleaned_data.get("password")
-
-        if email and password:
-            user = authenticate(email=email, password=password)
-            if user is None:
-                raise forms.ValidationError("Invalid email or password.")
-
-        return cleaned_data
 
 
 class ProjectForm(forms.ModelForm):
