@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Home{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/home.css' %}">
+{% endblock %}
+
+{% block body %}
+<h3>Latest Projects</h3>
+<ul>
+    {% for project in latest_projects %}
+    <li>
+        <strong>{{ project.title }}</strong>
+        <img src="{{ project.pictures.image.url }}" alt="{{ project.title }}" class="project-image">
+        <p>{{ project.details }}</p>
+        <p>Category: {{ project.category.name }}</p>
+        <p>Target Amount: ${{ project.target_amount }}</p>
+        <p>Start Time: {{ project.start_time }}</p>
+    </li>
+    {% endfor %}
+</ul>
+
+<h3>Featured Projects</h3>
+<ul>
+    {% for project in featured_projects %}
+    <li>
+        <strong>{{ project.title }}</strong>
+        <img src="{{ project.pictures.image.url }}" alt="{{ project.title }}" class="project-image">
+        <p>{{ project.details }}</p>
+        <p>Category: {{ project.category.name }}</p>
+        <p>Target Amount: ${{ project.target_amount }}</p>
+        <p>Start Time: {{ project.start_time }}</p>
+    </li>
+    {% endfor %}
+</ul>
+
+<h3>Categories</h3>
+<ul>
+    {% for category in categories %}
+    <li><a href="{% url 'category_projects' category.id %}">{{ category.name }}</a></li>
+    {% endfor %}
+</ul>
+{% endblock %}

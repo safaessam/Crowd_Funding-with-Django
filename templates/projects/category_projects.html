@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ category.name }} Projects{% endblock %}
+
+{% block body %}
+    <h2>{{ category.name }} Projects</h2>
+    <ul>
+        {% for project in projects %}
+        <li>
+            <strong>{{ project.title }}</strong>
+            <img src="{{ project.pictures.first.image.url }}" alt="{{ project.title }}" class="project-image">
+            <p>{{ project.details }}</p>
+            <p>Target Amount: ${{ project.target_amount }}</p>
+            <p>Start Time: {{ project.start_time }}</p>
+        </li>
+        {% endfor %}
+    </ul>
+{% endblock %}
