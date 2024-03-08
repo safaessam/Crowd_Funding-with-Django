@@ -18,7 +18,7 @@ from django.contrib import admin
 from django.urls import path
 from projects.views import create_project, donate, project_detail, rate_project, search_projects
 from registration.views import Registration, VerifyEmail, category_projects, home, signin, signout
-# from user_Profile.views import donations, projects, user_profile
+from user_Profile.views import user_profile
 
 urlpatterns = [ 
     path('admin/', admin.site.urls),
@@ -29,13 +29,10 @@ urlpatterns = [
     path('project_detail/<int:project_id>/', project_detail, name='project_detail'),   
     path('project/<int:project_id>/donate/', donate, name='donate'),
     path('create_project/', create_project, name='create_project'),
-    # path('profile/', user_profile , name="user profile"),
-    # path('projects', projects , name='projects'),
-    # path('donations', donations , name='donations'),
     path('category_projects/<int:category_id>/', category_projects, name='category_projects'),
     path('verify_email/', VerifyEmail.as_view(), name='verify_email'),
     path('search/', search_projects, name='search_projects'),
     path('rate_project/<int:project_id>/', rate_project, name='rate_project'),
-
-
+    path('profile/', user_profile , name="user_profile"),
+    
 ]
