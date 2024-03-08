@@ -1,51 +1,47 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+      integrity="<KEY>"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="{% static 'css/base.css' %}" />
+    {% block css %} {% endblock %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-    
-        integrity="<KEY>" crossorigin="anonymous">
-    <link rel="stylesheet" href="{% static 'css/base.css' %}">
-    {% block css %}
-    
-    {% endblock %}
+    <title>{% block title %} Crowd-Funding {% endblock %}</title>
+  </head>
 
-    <title>
-        {% block title %}
-        Crowd-Funding
-        {% endblock %}
-    </title>
-</head>
-
-<body>
+  <body>
     <header>
-        <nav>
-            <ul class="navbar">
-                <div>
-                    <li><a href="{% url 'home' %}">Home</a></li>
-                    <li><a href="{% url 'create_project' %}">Create a Project</a></li>
-                </div>
-                <div>
-                    <li><a href="#">{{ request.session.first_name }}'s Profile</a></li>
-                    <li><a href="{% url 'signout' %}">Sign Out</a></li>
-                </div>
-            </ul>
-        </nav>
+      <nav>
+        <ul class="navbar">
+          <div>
+            <li><a href="{% url 'home' %}">Home</a></li>
+            <li><a href="{% url 'create_project' %}">Create a Project</a></li>
+          </div>
+          <div>
+            <li><a href="#">{{ request.session.first_name }}'s Profile</a></li>
+            <li><a href="{% url 'signout' %}">Sign Out</a></li>
+          </div>
+        </ul>
+      </nav>
     </header>
 
     <main>
-        {% block body %}
-        <h1>Crowd-Funding Web application!</h1>
-        {% endblock body %}
+      {% block body %}
+      <h1>Crowd-Funding Web application!</h1>
+      {% endblock body %}
     </main>
 
     <footer>
-        {% block footer %}
-        <p>&copy; 2024 Crowd-Funding Web app. All rights reserved ITI.</p>
-        {% endblock footer %}
+      {% block footer %}
+      <p>&copy; 2024 Crowd-Funding Web app. All rights reserved ITI.</p>
+      {% endblock footer %}
     </footer>
-</body>
+  </body>
 </html>
