@@ -1,11 +1,18 @@
-from django.shortcuts import render, get_object_or_404
-from django.contrib.auth.decorators import login_required
-from user_Profile.models import UserProfile
+from django.shortcuts import redirect, render
+from registration.models import MyUser
 
-@login_required
-def profile_detail(request):
-    user = get_object_or_404(UserProfile, pk=request.user.pk)
-    projects = user.projects.all()  # Assuming you have a 'projects' relation
-    donations = user.donations.all()  # Assuming you have a 'donations' relation
-    context = {'user': user, 'projects': projects, 'donations': donations}
-    return render(request, 'profiles/profile_detail.html', context)
+
+def user_profile(request):
+    user_email = request.session.get("user_email")
+    if user_email:
+        try:
+            user = MyUser.objects.get(email=user_email)
+        except MyUser.DoesNotExist:
+            user = None
+        
+        context = {
+            'user_profile': user
+        }
+        return render(request, 'profiles/profile_detail.html', context)
+    else:
+        return redirect("signin")
