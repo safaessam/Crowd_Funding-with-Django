@@ -16,7 +16,8 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from registration.views import Registration, VerifyEmail, create_project, donate, home, project_detail, rate_project, search_projects, signin, signout, category_projects
+from projects.views import create_project, donate, project_detail, rate_project, search_projects
+from registration.views import Registration, VerifyEmail, category_projects, home, signin, signout
 # from user_Profile.views import donations, projects, user_profile
 
 urlpatterns = [ 
