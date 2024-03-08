@@ -1,0 +1,27 @@
+.profile {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 50px;
+}
+
+.profile-picture {
+    margin-right: 20px;
+}
+
+.profile-info {
+    font-family: Arial, sans-serif;
+}
+
+.profile-info p {
+    margin: 5px 0;
+}
+
+.profile-info a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.profile-info a:hover {
+    text-decoration: underline;
+}

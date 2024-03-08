@@ -1,22 +1,35 @@
-{% comment %} {% extends 'base.html' %}
-{% load static %} {% endcomment %}
+{% extends 'base.html' %}
+{% load static %}
 
-<h1>{{ user.username }}'s Profile</h1>
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/profile_detail.css' %}" />
+{% endblock %}
 
-<p>Name: {{ user.username }}</p>
-<p>Birthdate: {{ user.birthdate }}</p>
-<p>Facebook: <a href="{{ user.facebook_profile }}">{{ user.facebook_profile }}</a></p>
-<p>Country: {{ user.country }}</p>
+{% block title %}
+{{ user_profile.first_name }}'s Profile
+{% endblock %}
 
-<h2>Edit Profile</h2>
-<form method="post" action="{% url 'profiles:profile_edit' %}">
-    {% csrf_token %}
-    <button type="submit">Save Changes</button>
-</form>
-
-<h2>Delete Account</h2>
-<form method="post" action="{% url 'profiles:account_delete' %}">
-    {% csrf_token %}
-    <p>Are you sure you want to delete your account?</p>
-    <button type="submit">Confirm Deletion</button>
-</form>
+{% block body %}
+<div class="profile">
+    <div class="profile-picture">
+        <img src="{% if user_profile.profile_picture %}{{ user_profile.profile_picture.url }}{% else %}{% static 'images/default.png' %}{% endif %}" alt="Profile Picture">
+    </div>
+    <div class="profile-info">
+        <h1>{{ user_profile.first_name }} {{ user_profile.last_name }}</h1>
+        <p>Email: {{ user_profile.email }}</p>
+        <p>Mobile Phone: {{ user_profile.mobile_phone }}</p>
+        
+        {% if user_profile.birthdate %}
+        <p>Birthdate: {{ user_profile.birthdate }}</p>
+        {% endif %}
+        
+        {% if user_profile.facebook_profile %}
+        <p>Facebook Profile: <a href="{{ user_profile.facebook_profile }}">{{ user_profile.facebook_profile }}</a></p>
+        {% endif %}
+        
+        {% if user_profile.country %}
+        <p>Country: {{ user_profile.country }}</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
