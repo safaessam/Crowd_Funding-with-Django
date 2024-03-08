@@ -38,7 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'star_ratings',
+    # 'star_ratings',
     # Our Apps
     'user_Profile',
     'registration',

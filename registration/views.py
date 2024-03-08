@@ -1,5 +1,4 @@
 from django.views import View
-# from django.views.generic import ListView
 from django.shortcuts import render, redirect, get_object_or_404
 from django.utils import timezone
 from projects.models import Category, Project, Donation, Picture, Rating
@@ -12,6 +11,7 @@ from .forms import (
 )
 from registration.models import MyUser, UserEmailVerification
 from django.db.models import Avg
+from django.db.models import Q
 
 def category_projects(request, category_id):
     category = get_object_or_404(Category, id=category_id)
@@ -203,3 +203,13 @@ def rate_project(request, project_id):
         # Handle any additional logic or redirect as needed
 
     return redirect('project_detail', project_id=project.id)
+
+def search_projects(request):
+    query = request.GET.get('query')
+
+    if query:
+        projects = Project.objects.filter(Q(title__icontains=query) | Q(category__name__icontains=query))
+    else:
+        projects = Project.objects.all()
+
+    return render(request, 'projects/search_results.html', {'projects': projects})
