@@ -15,6 +15,9 @@ class MyUser(models.Model):
     )
     is_active = models.BooleanField(default=False)
     isEmailVerified = models.BooleanField(default=False)
+    birthdate = models.DateField(null=True, blank=True)
+    facebook_profile = models.URLField(null=True, blank=True)
+    country = models.CharField(max_length=100, null=True, blank=True)
 
     def __str__(self):
         return self.email
