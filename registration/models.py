@@ -3,7 +3,6 @@ import random
 from django.db import models
 from django.core.mail import send_mail
 
-
 # Create your models here.
 class MyUser(models.Model):
     first_name = models.CharField(max_length=50)
