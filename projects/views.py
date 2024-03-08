@@ -58,11 +58,11 @@ def rate_project(request, project_id):
     
     if request.method == 'POST':
         rating_value = request.POST.get('rating')
-        user = request.user  # Assuming you are using Django's built-in authentication system
         
-        # Create the Rating object with the user and value
+        user_email = request.session.get("user_email")
+        user = MyUser.objects.get(email=user_email)
+        
         rating = Rating.objects.create(project=project, user=user, value=rating_value)
-        # Handle any additional logic or redirect as needed
 
     return redirect('project_detail', project_id=project.id)
 
