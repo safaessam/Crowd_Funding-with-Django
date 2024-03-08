@@ -1,27 +1,42 @@
-.profile {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-top: 50px;
+/* .profile {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 50px;
 }
 
 .profile-picture {
-    margin-right: 20px;
+  margin-right: 20px;
 }
 
 .profile-info {
-    font-family: Arial, sans-serif;
+  font-family: Arial, sans-serif;
 }
 
 .profile-info p {
-    margin: 5px 0;
+  margin: 5px 0;
 }
 
 .profile-info a {
-    color: #007bff;
-    text-decoration: none;
+  color: #007bff;
+  text-decoration: none;
 }
 
 .profile-info a:hover {
-    text-decoration: underline;
+  text-decoration: underline;
+} */
+body {
+  height: 100vh;
+}
+
+.profile {
+  padding: 3rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.profile-picture {
+  width: 250px;
+  height: 250px;
 }
