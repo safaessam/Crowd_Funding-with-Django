@@ -16,7 +16,9 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from registration.views import Registration, VerifyEmail, create_project, donate, home, project_detail, signin, signout, category_projects
+from projects import views
+from projects.models import search_projects
+from registration.views import Registration, VerifyEmail, create_project, donate, home, project_detail, rate_project, signin, signout, category_projects
 # from user_Profile.views import donations, projects, user_profile
 
 urlpatterns = [ 
@@ -33,4 +35,8 @@ urlpatterns = [
     # path('donations', donations , name='donations'),
     path('category_projects/<int:category_id>/', category_projects, name='category_projects'),
     path('verify_email/', VerifyEmail.as_view(), name='verify_email'),
+    path('search/', search_projects, name='search_projects'),
+    path('rate_project/<int:project_id>/', rate_project, name='rate_project'),
+
+
 ]

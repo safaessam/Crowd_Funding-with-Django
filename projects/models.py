@@ -1,6 +1,9 @@
+from django.db.models import Q
 from django.db import models
 from django.contrib.auth import get_user_model
 from django.utils import timezone
+
+from django.shortcuts import render
 
 from registration.models import MyUser
 
@@ -22,17 +25,19 @@ class Project(models.Model):
     owner = models.ForeignKey(MyUser, on_delete=models.CASCADE)
     is_cancelled = models.BooleanField(default=False)
     is_featured = models.BooleanField(default=False)
-
-    def __str__(self):
-        return self.title
-
-    def average_rating(self):
+    # Existing fields
+def average_rating(self):
         total_rating = sum([rating.value for rating in self.ratings.all()])
         if total_rating:
             return total_rating / self.ratings.count()
         return 0
+    
+def __str__(self):
+        return self.title
 
-    def cancel_project(self):
+    
+
+def cancel_project(self):
         total_donations = sum([donation.amount for donation in self.donations.all()])
         return total_donations < 0.25 * self.target_amount
 
@@ -79,3 +84,26 @@ class FeaturedProject(models.Model):
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
     rate = models.DecimalField(max_digits=5, decimal_places=2)
+class Review(models.Model):
+    comment = models.CharField(max_length=255)
+    rate = models.IntegerField()
+    created_at = models.DateTimeField(default=timezone.now)
+    user = models.ForeignKey(MyUser, related_name='user_review', on_delete=models.CASCADE)
+    project = models.ForeignKey(Project, related_name='project_review', on_delete=models.CASCADE)
+
+
+    def __str__(self):
+        return f"{self.user} | {self.project} | 'comment' --> {self.comment}"
+    
+
+
+   
+def search_projects(request):
+    query = request.GET.get('query')
+
+    if query:
+        projects = Project.objects.filter(Q(title__icontains=query) | Q(category__name__icontains=query))
+    else:
+        projects = Project.objects.all()
+
+    return render(request, 'projects/search_results.html', {'projects': projects})

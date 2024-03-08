@@ -59,5 +59,14 @@
         </div>
         <button type="submit" class="btn btn-primary">Donate</button>
     </form>
+    
+    <form class="rating-form" method="post" action="{% url 'rate_project' project.id %}">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="rating">Rate the Project:</label>
+            <input class="form-control" type="number" name="rating" id="rating" min="1" max="5" required>
+        </div>
+        <button class="btn btn-primary" type="submit">Rate Project</button>
+    </form>
 </div>
 {% endblock %}

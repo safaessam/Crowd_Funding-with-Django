@@ -99,3 +99,35 @@
   .card a:hover {
     background-color: #0056b3;
   }
+  #searchForm {
+    display: flex;
+    margin-bottom: 20px;
+}
+
+#searchForm input[type="text"] {
+    flex: 1;
+    padding: 10px;
+}
+
+#searchForm button {
+    padding: 10px 20px;
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+/* Style for the search results container */
+#searchResults {
+    border: 1px solid #ccc;
+    padding: 10px;
+}
+
+#searchResults ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+#searchResults li {
+    margin-bottom: 5px;
+}

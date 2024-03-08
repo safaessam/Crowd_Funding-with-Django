@@ -8,74 +8,84 @@
 {% endblock %}
 
 {% block body %}
-
 <div class="container ">
-  {% if user %}
-    <a href="{% url 'create_project' %}" class="float p-3 fs-5 rounded-pill bg-info text-decoration-none text-light">
-        <i class="fa fa-plus"></i> Add a new project
-    </a>
-  {% endif %}
-  <!-- Featured Projects -->
-  {% if featured_projects %}
-  <div class="join my-5">
-    <!--  highest five rated running projects -->
 
-    <div id="carouselExampleDark" class="carousel carousel-dark slide">
-      <div class="text-center position-absolute text-light m-3 p-3 rounded-pill" 
-      style="z-index: 5; background-color: rgba(0, 0, 0, 0.35);">
-        <h2> Our Featured Projects </h2>
-      </div>
 
-      <div class="carousel-indicators">
-        <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="0" class="active"
-          aria-current="true" aria-label="Slide 1"></button>
-        <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="1" aria-label="Slide 2"></button>
-        <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="2" aria-label="Slide 3"></button>
-        <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="3" aria-label="Slide 4"></button>
-        <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="4" aria-label="Slide 5"></button>
-      </div>
+    <title>Search Projects</title>
 
-      <div class="carousel-inner">
-        {% for project in featured_projects %}
-        <div class="carousel-item{% if forloop.first %} active{% endif %}" data-bs-interval="10000">
-          <img src="{{ project.picture.image.url }}" style="height:60vh; opacity:90%; object-fit: cover;" class="d-block w-100" alt="...">
-          <div class="carousel-caption rounded" style="background-color: rgba(255, 255, 255, 0.25);">
-            <h3>{{ project.title }}</h3>
-            <p>{{ project.details }}</p>
-            <a href="{% url 'project_detail' project_id=project.id %}" class="btn btn-outline-light">View Details</a>
-          </div>
+    <h1>Project Search</h1>
+
+    <!-- Assuming you have a search form in your HTML with an ID of 'searchForm' and a results container with an ID of 'searchResults' -->
+    <form id="searchForm" method="GET" action="{% url 'search_projects' %}">
+        <input type="text" name="query" placeholder="Search for projects">
+        <button type="submit">Search</button>
+    </form>
+
+    <div id="searchResults"></div>
+
+    <script>
+        const searchForm = document.getElementById('searchForm');
+        const searchResultsContainer = document.getElementById('searchResults');
+
+        searchForm.addEventListener('submit', (event) => {
+            event.preventDefault();
+
+            const query = searchForm.elements.query.value;
+
+            fetch(`${searchForm.action}?query=${encodeURIComponent(query)}`)
+                .then(response => response.text())
+                .then(data => {
+                    searchResultsContainer.innerHTML = data;
+                })
+                .catch(error => {
+                    console.error(error);
+                    // Handle error response
+                });
+        });
+    </script>
+
+    
+        
+        <!-- Slider to show the highest five rated running projects -->
+        <h2>Highest Rated Projects</h2>
+        <div class="slider">
+            <!-- Add your slider code here -->
+            <!-- Display the highest five rated running projects -->
+            {% for project in highest_rated_projects %}
+                <div class="slide">
+                    <h3>{{ project.title }}</h3>
+                    <h3>{{ project.details }}</h3>
+                    <h3>Donate:</h3> {{ project.donate }}
+                    <h3>Category:</h3> {{ project.category }}
+                    <h3>Total Target: </h3>{{ project.target_amount }}
+                    <h3>Average Rating: </h3>{{ average_rating }}
+                    <h3>Donations:</h3>
+                    <div class="donations">
+                        {% for donation in project.donations.all %}
+                        <p>{{ donation.user.username }} donated {{ donation.amount }}</p>
+                        {% empty %}
+                        <p>No donations yet.</p>
+                        {% endfor %}                </div>
+            {% endfor %}
         </div>
-        {% endfor %}
-      </div>
-
-      <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="prev">
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Previous</span>
-      </button>
-      <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="next">
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Next</span>
-      </button>
-    </div>
-  </div>
-  {% endif %}
-
-  <!-- High Rated Projects -->
-  {% if top_rated_projects %}
-  <div class="top-rated my-3">
-    <h2>Top Rated Projects</h2>
-    <div class="row mt-2 gy-3 row-cols-1 row-cols-md-2 row-cols-lg-3">
-      {% for project in top_rated_projects %}
-      <div class="col">
-        <div class="card position-relative mx-1 rounded" style="height: 550px;">
-          {% include "projects/project_detail.html" with project=project inlist=1 %}
-        </div>
-      </div>
-      {% endfor %}
-    </div>
-  </div>
-  {% endif %}
-
-
-  {% endblock %}
+        
+        <!-- List of the latest 5 projects -->
+        <h2>Latest Projects</h2>
+        <ul>
+            {% for project in latest_projects %}
+                <li>{{ project.title }}</li>
+                <!-- Add other project details here -->
+            {% endfor %}
+        </ul>
+        
+        <!-- List of categories -->
+        <h2>Categories</h2>
+        <ul>
+            {% for category in categories %}
+                <li>
+                    <a href="{% url 'category_projects' category.id %}">{{ category.name }}</a>
+                </li>
+            {% endfor %}
+        </ul>
+        {% endblock %}
        

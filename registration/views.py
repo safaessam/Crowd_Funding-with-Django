@@ -2,7 +2,7 @@ from django.views import View
 # from django.views.generic import ListView
 from django.shortcuts import render, redirect, get_object_or_404
 from django.utils import timezone
-from projects.models import Category, Project, Donation, Picture
+from projects.models import Category, Project, Donation, Picture, Rating
 from .forms import (
     EmailVerificationForm,
     PictureForm,
@@ -11,7 +11,7 @@ from .forms import (
     SignInForm,
 )
 from registration.models import MyUser, UserEmailVerification
-
+from django.db.models import Avg
 
 def category_projects(request, category_id):
     category = get_object_or_404(Category, id=category_id)
@@ -112,15 +112,16 @@ def signout(request):
     request.session.clear()
     return redirect("signin")
 
+
 def project_detail(request, project_id):
     project = get_object_or_404(Project, id=project_id)
-    average_rating = project.average_rating()
+    average_rating = Rating.objects.filter(project=project).aggregate(avg_rating=Avg('value'))['avg_rating']
+
     return render(
         request,
         "projects/project_detail.html",
         {"project": project, "average_rating": average_rating},
     )
-
 
 def donate(request, project_id):
     project = get_object_or_404(Project, id=project_id)
@@ -189,3 +190,16 @@ class VerifyEmail(View):
             else:
                 form.add_error(None, "Invalid code")
         return render(request, "registration/verify_email.html", {"form": form})
+
+def rate_project(request, project_id):
+    project = get_object_or_404(Project, id=project_id)
+    
+    if request.method == 'POST':
+        rating_value = request.POST.get('rating')
+        user = request.user  # Assuming you are using Django's built-in authentication system
+        
+        # Create the Rating object with the user and value
+        rating = Rating.objects.create(project=project, user=user, value=rating_value)
+        # Handle any additional logic or redirect as needed
+
+    return redirect('project_detail', project_id=project.id)
