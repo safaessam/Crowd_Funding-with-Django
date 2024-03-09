@@ -11,7 +11,7 @@ class MyUser(models.Model):
     password = models.CharField(max_length=30)
     mobile_phone = models.CharField(max_length=11)
     profile_picture = models.ImageField(
-        upload_to="profile_pictures/", null=True, blank=True
+        upload_to="static/profile_pictures/", null=True, blank=True
     )
     is_active = models.BooleanField(default=False)
     isEmailVerified = models.BooleanField(default=False)
