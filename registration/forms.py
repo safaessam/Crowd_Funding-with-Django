@@ -9,10 +9,18 @@ class RegistrationForm(forms.ModelForm):
 
     class Meta:
         model = MyUser
-        fields = ['first_name', 'last_name', 'email', 'password', 'confirm_password', 'mobile_phone', 'profile_picture']
+        fields = [
+            "first_name",
+            "last_name",
+            "email",
+            "password",
+            "confirm_password",
+            "mobile_phone",
+            "profile_picture",
+        ]
         widgets = {
-            'password': forms.PasswordInput(),
-            'profile_picture': forms.FileInput(),
+            "password": forms.PasswordInput(),
+            "profile_picture": forms.FileInput(),
         }
 
     def clean(self):
@@ -41,6 +49,9 @@ class ProjectForm(forms.ModelForm):
             "end_time",
         ]
 
+    def __init__(self, *args, **kwargs):
+        super(ProjectForm, self).__init__(*args, **kwargs)
+        self.fields["start_time"].widget.attrs["readonly"] = True
 
 class PictureForm(forms.ModelForm):
     class Meta:
@@ -49,9 +60,9 @@ class PictureForm(forms.ModelForm):
         widgets = {"image": forms.ClearableFileInput()}
 
 
-
 class EmailVerificationForm(forms.Form):
     code = forms.CharField(max_length=6)
+
     def clean(self):
         cleaned_data = super().clean()
         code = cleaned_data.get("code")

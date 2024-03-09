@@ -1,58 +1,52 @@
-{% extends 'base.html' %} {% load static %} !DOCTYPE html>
-<html lang="en">
+{% extends 'base.html' %}
+{% load static %}
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/create_project.css' %}" />
+{% endblock %}
 
-  {% block css %}
-  <link rel="stylesheet" href="{% static 'css/create_project.css' %}" />
-  {% endblock %}
-</head>
+{% block title %}Create New Project{% endblock %}
 
-<body>
-  <div class="container">
-    {% block title %}Create New Project{% endblock %} {% block body %}
-    <div class="outerBx">
-      <div class="container">
-        <h2>Create Project</h2>
-        <form method="post" action="{% url 'create_project' %}" enctype="multipart/form-data">
-          {% csrf_token %}
-          <div class="form-group">
-            <label for="{{ project_form.title.id_for_label }}">Title</label>
-            {{ project_form.title }}
-          </div>
-          <div class="form-group">
-            <label for="{{ project_form.details.id_for_label }}">Details</label>
-            {{ project_form.details }}
-          </div>
-          <div class="form-group">
-            <label for="{{ project_form.category.id_for_label }}">Category</label>
-            {{ project_form.category }}
-          </div>
-          <div class="form-group">
-            <label for="{{ project_form.target_amount.id_for_label }}">Target Amount</label>
-            {{ project_form.target_amount }}
-          </div>
-          <div class="form-group">
-            <label for="{{ project_form.start_time.id_for_label }}">Start Time</label>
-            {{ project_form.start_time }}
-          </div>
-          <div class="form-group">
-            <label for="{{ project_form.end_time.id_for_label }}">End Time</label>
-            {{ project_form.end_time }}
-          </div>
-          <div class="form-group">
-            <label for="{{ picture_form.image.id_for_label }}">Image</label>
-            {{ picture_form.image }}
-          </div>
-          <button type="submit" class="btn btn-primary">
-            Create Project
-          </button>
-        </form>
-      </div>
+{% block body %}
+<div class="container">
+  <div class="outerBx">
+    <div class="container">
+      <h2>Create Project</h2>
+      <form method="post" action="{% url 'create_project' %}" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="form-group">
+          <label for="{{ project_form.title.id_for_label }}">Title</label>
+          {{ project_form.title }}
+        </div>
+        <div class="form-group">
+          <label for="{{ project_form.details.id_for_label }}">Details</label>
+          {{ project_form.details }}
+        </div>
+        <div class="form-group">
+          <label for="{{ project_form.category.id_for_label }}">Category</label>
+          {{ project_form.category }}
+        </div>
+        <div class="form-group">
+          <label for="{{ project_form.target_amount.id_for_label }}">Target Amount</label>
+          {{ project_form.target_amount }}
+        </div>
+        <div class="form-group">
+          <label for="{{ project_form.start_time.id_for_label }}">Start Time</label>
+          {{ project_form.start_time }}
+        </div>
+        <div class="form-group">
+          <label for="{{ project_form.end_time.id_for_label }}">End Time</label>
+          {{ project_form.end_time }}
+        </div>
+        <div class="form-group">
+          <label for="{{ picture_form.image.id_for_label }}">Image</label>
+          {{ picture_form.image }}
+        </div>
+        <button type="submit" class="btn btn-primary">
+          Create Project
+        </button>
+      </form>
     </div>
   </div>
-</body>
-
-</html>
+</div>
+{% endblock %}
