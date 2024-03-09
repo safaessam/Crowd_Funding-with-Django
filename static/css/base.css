@@ -2,7 +2,7 @@ body {
   font-family: Arial, sans-serif;
   background: #63c88a;
   background: linear-gradient(135deg, #63c88a, #913b3d);
-  padding: 0;
+  padding-bottom: 20px;
 }
 
 .navbar {
@@ -38,11 +38,11 @@ body {
   color: black;
 }
 
-/* footer p {
+footer p {
   margin: 0;
   font-size: 14px;
   color: #fffbfb;
-} */
+}
 
 footer {
   position: fixed;
@@ -53,4 +53,5 @@ footer {
   text-align: center;
   padding: 10px 0;
   color: #666;
+  margin-top: 20px;
 }
