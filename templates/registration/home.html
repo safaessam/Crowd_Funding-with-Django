@@ -66,12 +66,6 @@
 
     <!-- List of the latest 5 projects -->
     <h2>Latest Projects</h2>
-    <ul>
-      {% for project in latest_projects %}
-      <li>{{ project.title }}</li>
-      <!-- Add other project details here -->
-      {% endfor %}
-    </ul>
     <div class="d-flex justify-content-center gap-5">
       {% for project in latest_projects %}
       <div class="card" style="width: 18rem">
@@ -103,6 +97,33 @@
       </li>
       {% endfor %}
     </ul>
+
+    <div class="card text-center">
+      <div class="card-header">Featured</div>
+      <div class="card-body">
+        <h5 class="card-title">Special title treatment</h5>
+        <p class="card-text">
+          With supporting text below as a natural lead-in to additional content.
+        </p>
+        <a href="#" class="btn btn-primary">Go somewhere</a>
+      </div>
+      <div class="card-footer text-body-secondary">2 days ago</div>
+    </div>
+
+    <div>
+      <ul>
+        {% for category in categories %}
+        <li>
+          <a
+            href="{% url 'category_projects' category.id %}"
+            class="btn btn-secondary"
+          >
+            {{ category.name }}
+          </a>
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
     {% endblock %}
   </div>
 </div>
