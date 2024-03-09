@@ -1,6 +1,6 @@
 from django.shortcuts import get_object_or_404, redirect, render
-from projects.models import Donation, Picture, Project, Rating
-from registration.forms import PictureForm, ProjectForm
+from projects.models import Donation, Project, Rating
+from registration.forms import ProjectForm
 from registration.models import MyUser
 from django.db.models import Q, Avg
 
@@ -29,28 +29,23 @@ def donate(request, project_id):
 
 def create_project(request):
     if request.method == "POST":
-        project_form = ProjectForm(request.POST)
-        picture_form = PictureForm(request.POST, request.FILES)
-        if project_form.is_valid() and picture_form.is_valid():
+        project_form = ProjectForm(request.POST, request.FILES)
+        if project_form.is_valid():
             project = project_form.save(commit=False)
             user_email = request.session.get("user_email")
             if user_email:
                 user = MyUser.objects.get(email=user_email)
                 project.owner = user
             project.save()
-            for f in request.FILES.getlist("images"):
-                picture = Picture(project=project, image=f)
-                picture.save()
             return redirect("project_detail", project_id=project.id)
         else:
             pass
     else:
         project_form = ProjectForm()
-        picture_form = PictureForm()
     return render(
         request,
         "projects/create_project.html",
-        {"project_form": project_form, "picture_form": picture_form}
+        {"project_form": project_form}
     )
 
 def rate_project(request, project_id):

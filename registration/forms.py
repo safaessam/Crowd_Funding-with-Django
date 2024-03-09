@@ -1,6 +1,6 @@
 from django.contrib.auth import authenticate
 from django import forms
-from projects.models import Picture, Project
+from projects.models import Project
 from registration.models import MyUser
 
 
@@ -47,17 +47,12 @@ class ProjectForm(forms.ModelForm):
             "target_amount",
             "start_time",
             "end_time",
+            "picture",
         ]
 
     def __init__(self, *args, **kwargs):
         super(ProjectForm, self).__init__(*args, **kwargs)
         self.fields["start_time"].widget.attrs["readonly"] = True
-
-class PictureForm(forms.ModelForm):
-    class Meta:
-        model = Picture
-        fields = ["image"]
-        widgets = {"image": forms.ClearableFileInput()}
 
 
 class EmailVerificationForm(forms.Form):

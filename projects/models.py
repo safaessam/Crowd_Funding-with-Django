@@ -12,7 +12,7 @@ class Project(models.Model):
     title = models.CharField(max_length=50)
     details = models.TextField(max_length=255)
     category = models.ForeignKey(Category, on_delete=models.PROTECT)
-    pictures = models.ForeignKey("Picture", on_delete=models.SET_NULL, null=True, blank=True)
+    picture = models.ImageField(upload_to='static/project_images')
     target_amount = models.DecimalField(max_digits=10, decimal_places=2)
     tags = models.ManyToManyField('Tag')
     start_time = models.DateTimeField(default=timezone.now)
@@ -60,13 +60,6 @@ class Rating(models.Model):
         return f"{self.user.first_name} {self.user.last_name} - {self.project.title}"
 
 
-class Picture(models.Model):
-    image = models.ImageField(upload_to='static/project_images')
-
-    def __str__(self):
-        return self.image.name
-
-
 class Donation(models.Model):
     project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name="donations")
     user = models.ForeignKey(MyUser, on_delete=models.CASCADE)
@@ -78,7 +71,6 @@ class Donation(models.Model):
 
 
 class FeaturedProject(models.Model):
-    project = models.ForeignKey(Project, on_delete=models.CASCADE)
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
     rate = models.DecimalField(max_digits=5, decimal_places=2)
 
