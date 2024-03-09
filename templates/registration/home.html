@@ -1,13 +1,18 @@
-{% extends 'base.html' %} {% load static %} {% block title %}Home{% endblock %}
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Home{% endblock %}
+
 {% block css %}
 <link rel="stylesheet" href="{% static 'css/home.css' %}" />
-{% endblock %} {% block body %}
+{% endblock %}
+
+{% block body %}
 <div class="container">
   <title>Search Projects</title>
 
   <h1>Project Search</h1>
 
-  <!-- Assuming you have a search form in your HTML with an ID of 'searchForm' and a results container with an ID of 'searchResults' -->
   <form id="searchForm" method="GET" action="{% url 'search_projects' %}">
     <input type="text" name="query" placeholder="Search for projects" />
     <button type="submit">Search</button>
@@ -15,31 +20,8 @@
 
   <div id="searchResults"></div>
 
-  <script>
-    const searchForm = document.getElementById("searchForm");
-    const searchResultsContainer = document.getElementById("searchResults");
-
-    searchForm.addEventListener("submit", (event) => {
-      event.preventDefault();
-
-      const query = searchForm.elements.query.value;
-
-      fetch(`${searchForm.action}?query=${encodeURIComponent(query)}`)
-        .then((response) => response.text())
-        .then((data) => {
-          searchResultsContainer.innerHTML = data;
-        })
-        .catch((error) => {
-          console.error(error);
-          // Handle error response
-        });
-    });
-  </script>
-
-  <!-- Slider to show the highest five rated running projects -->
   <h2>Highest Rated Projects</h2>
   <div class="slider">
-    <!-- Add your slider code here -->
     <!-- Display the highest five rated running projects -->
     {% for project in highest_rated_projects %}
     <div class="slide">
@@ -69,25 +51,17 @@
     <div class="d-flex justify-content-center gap-5">
       {% for project in latest_projects %}
       <div class="mx-3 card ctCat" style="width: 18rem">
-        <img
-          src="{{ project.picture.url }}"
-          class="card-img-top"
-          alt="{{ project.title }}"
-        />
+        <img src="{{ project.picture.url }}" class="card-img-top" alt="{{ project.title }}" />
         <div class="card-body">
           <h5 class="card-title">{{ project.title }}</h5>
           <p class="card-text">{{ project.details }}</p>
-          <a
-            href="{% url 'project_detail' project_id=project.id %}"
-            class="btn btn-primary"
-            >Go to Project</a
-          >
+          <a href="{% url 'project_detail' project_id=project.id %}" class="btn btn-primary">Go to Project</a>
         </div>
       </div>
       {% endfor %}
     </div>
-    <!-- List of categories -->
 
+    <!-- List of categories -->
     <div class="pt-3">
       <div class="ctCat card text-center">
         <div class="card-header">Categories</div>
@@ -97,10 +71,7 @@
           <ul>
             {% for category in categories %}
 
-            <a
-              href="{% url 'category_projects' category.id %}"
-              class="btn btn-secondary"
-            >
+            <a href="{% url 'category_projects' category.id %}" class="btn btn-secondary">
               {{ category.name }}
             </a>
             {% endfor %}
@@ -108,7 +79,26 @@
         </div>
       </div>
     </div>
-
-    {% endblock %}
   </div>
 </div>
+
+<script>
+  const searchForm = document.getElementById("searchForm");
+  const searchResultsContainer = document.getElementById("searchResults");
+
+  searchForm.addEventListener("submit", (event) => {
+    event.preventDefault();
+
+    const query = searchForm.elements.query.value;
+
+    fetch(`${searchForm.action}?query=${encodeURIComponent(query)}`)
+      .then((response) => response.text())
+      .then((data) => {
+        searchResultsContainer.innerHTML = data;
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  });
+</script>
+{% endblock %}

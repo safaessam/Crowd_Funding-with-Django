@@ -31,6 +31,10 @@
           {{ project_form.target_amount }}
         </div>
         <div class="form-group">
+          <label for="{{ project_form.tags.id_for_label }}">Tags</label>
+          {{ project_form.tags }}
+        </div>
+        <div class="form-group">
           <label for="{{ project_form.start_time.id_for_label }}">Start Time</label>
           {{ project_form.start_time }}
         </div>

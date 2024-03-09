@@ -38,14 +38,19 @@ body {
   color: black;
 }
 
-footer {
-  background-color: #333;
-  padding: 20px;
-  text-align: center;
-}
-
-footer p {
+/* footer p {
   margin: 0;
   font-size: 14px;
   color: #fffbfb;
+} */
+
+footer {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  background-color: #f5f5f5;
+  text-align: center;
+  padding: 10px 0;
+  color: #666;
 }

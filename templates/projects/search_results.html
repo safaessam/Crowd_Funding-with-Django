@@ -1,27 +1,28 @@
-<!-- search_results.html -->
 {% if projects %}
-    <ul>
-        {% for project in projects %}
-        <h1>{{ project.title }}</h1>
-        <h3>{{ project.details }}</h3>
-        <h3>Donate:</h3> {{ project.donate }}
-        <h3>Category:</h3> {{ project.category }}
-        <h3>Total Target: </h3>{{ project.target_amount }}
-        <h3>Average Rating: </h3>{{ average_rating }}
-        <h3>Donations:</h3>
-        <div class="donations">
-            {% for donation in project.donations.all %}
-            <p>{{ donation.user.username }} donated {{ donation.amount }}</p>
-            {% empty %}
-            <p>No donations yet.</p>
-            {% endfor %}
-        </div>
-    
-    
-            <li>{{ project.title }}</li>
-            <!-- Display other project details as needed -->
+<ul>
+    {% for project in projects %}
+    <div class="mt-3 project-image">
+        <img src="{{ project.picture.url }}" alt="Project Picture" class="img-fluid">
+    </div>
+    <h1>{{ project.title }}</h1>
+    <h3>{{ project.details }}</h3>
+    <h3>Donate:</h3> {{ project.donate }}
+    <h3>Category:</h3> {{ project.category }}
+    <h3>Total Target: </h3>{{ project.target_amount }}
+    <h3>Average Rating: </h3>{{ average_rating }}
+    <h3>Donations:</h3>
+    <div class="donations">
+        {% for donation in project.donations.all %}
+        <p>{{ donation.user.username }} donated {{ donation.amount }}</p>
+        {% empty %}
+        <p>No donations yet.</p>
         {% endfor %}
-    </ul>
+    </div>
+
+
+    <li>{{ project.title }}</li>
+    {% endfor %}
+</ul>
 {% else %}
-    <p>No results found.</p>
+<p>No results found.</p>
 {% endif %}

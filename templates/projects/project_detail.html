@@ -13,24 +13,17 @@
 
 {% block body %}
 <div class="container">
+    <div class="mt-3 project-image">
+        <img src="{{ project.picture.url }}" alt="Project Picture" class="img-fluid">
+    </div>
     <h1>{{ project.title }}</h1>
     <h3>{{ project.details }}</h3>
-    <h3>Category:</h3> {{ project.category }}
-    <h3>Total Target: </h3>{{ project.target_amount }}
-    <h3>Average Rating: </h3>{{ average_rating }}
-
-    <h3>Pictures:</h3>
-    <div class="row">
-        {% for picture in project.pictures.all %}
-        <div class="col-md-4">
-            <img src="{{ picture.image.url }}" alt="Project Picture" class="img-fluid">
-        </div>
-        {% empty %}
-        <div class="col">
-            <p>No pictures available.</p>
-        </div>
-        {% endfor %}
-    </div>
+    <h3>Category:</h3>
+    <p>{{ project.category }}</p>
+    <h3>Total Target: </h3>
+    <p>{{ project.target_amount }}</p>
+    <h3>Average Rating: </h3>
+    <p>{{ average_rating }}</p>
 
     <h3>Tags:</h3>
     <div class="tags">
@@ -59,7 +52,7 @@
         </div>
         <button type="submit" class="btn btn-primary">Donate</button>
     </form>
-    
+
     <form class="rating-form" method="post" action="{% url 'rate_project' project.id %}">
         {% csrf_token %}
         <div class="form-group">

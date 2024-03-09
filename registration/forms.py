@@ -45,6 +45,7 @@ class ProjectForm(forms.ModelForm):
             "details",
             "category",
             "target_amount",
+            "tags",
             "start_time",
             "end_time",
             "picture",

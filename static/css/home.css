@@ -1,5 +1,3 @@
-/* Styles for the home page */
-
 .container {
   padding: 20px;
 }
@@ -99,6 +97,7 @@
 .card a:hover {
   background-color: #0056b3;
 }
+
 #searchForm {
   display: flex;
   margin-bottom: 20px;
@@ -117,9 +116,7 @@
   cursor: pointer;
 }
 
-/* Style for the search results container */
 #searchResults {
-  border: 1px solid #ccc;
   padding: 10px;
 }
 
@@ -131,6 +128,7 @@
 #searchResults li {
   margin-bottom: 5px;
 }
+
 .ctCat {
   color: white;
   background: rgba(0, 0, 0, 0.345) !important;

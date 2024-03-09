@@ -3,17 +3,27 @@
 
 {% block title %}{{ category.name }} Projects{% endblock %}
 
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/category_projects.css' %}" />
+{% endblock %}
+
 {% block body %}
-    <h2>{{ category.name }} Projects</h2>
-    <ul>
-        {% for project in projects %}
-        <li>
-            <strong>{{ project.title }}</strong>
-            <img src="{{ project.pictures.first.image.url }}" alt="{{ project.title }}" class="project-image">
-            <p>{{ project.details }}</p>
-            <p>Target Amount: ${{ project.target_amount }}</p>
-            <p>Start Time: {{ project.start_time }}</p>
-        </li>
-        {% endfor %}
-    </ul>
+<div class="cate-container">
+    <h2 class="mt-3">{{ category.name }} Projects</h2>
+    {% if projects %}
+        <ul>
+            {% for project in projects %}
+            <li>
+                <img src="{{ project.picture.url }}" alt="{{ project.title }}" class="project-image">
+                <h1><strong>{{ project.title }}</strong></h1>
+                <p>{{ project.details }}</p>
+                <p>Target Amount: ${{ project.target_amount }}</p>
+                <p>Start Time: {{ project.start_time }}</p>
+            </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p class="empty">Sorry, No projects in '{{ category.name }}' Category at the moment.</p>
+    {% endif %}
+</div>
 {% endblock %}
