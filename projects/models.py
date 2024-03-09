@@ -61,7 +61,7 @@ class Rating(models.Model):
 
 
 class Picture(models.Model):
-    image = models.ImageField(upload_to='project_images')
+    image = models.ImageField(upload_to='static/project_images')
 
     def __str__(self):
         return self.image.name
