@@ -20,85 +20,61 @@
 
   <div id="searchResults"></div>
 
-  <h2>Highest Rated Projects</h2>
-  <div class="slider">
-    <!-- Display the highest five rated running projects -->
-    {% for project in highest_rated_projects %}
-    <div class="slide">
-      <h3>{{ project.title }}</h3>
-      <h3>{{ project.details }}</h3>
-      <h3>Donate:</h3>
-      {{ project.donate }}
-      <h3>Category:</h3>
-      {{ project.category }}
-      <h3>Total Target:</h3>
-      {{ project.target_amount }}
-      <h3>Average Rating:</h3>
-      {{ average_rating }}
-      <h3>Donations:</h3>
-      <div class="donations">
-        {% for donation in project.donations.all %}
-        <p>{{ donation.user.username }} donated {{ donation.amount }}</p>
-        {% empty %}
-        <p>No donations yet.</p>
-        {% endfor %}
+  <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+    <div class="carousel-inner">
+      {% for project in highest_rated_projects %}
+      <div class="carousel-item {% if forloop.first %} active {% endif %}">
+        <div class="card">
+          <a href="{% url 'project_detail' project_id=project.id %}">
+            <img src="{{ project.picture.url }}" class="card-img-top d-block w-100" alt="{{ project.title }}">
+          </a>
+        </div>
       </div>
       {% endfor %}
     </div>
+  </div>
+  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Previous</span>
+  </button>
+  <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Next</span>
+  </button>
 
-    <!-- List of the latest 5 projects -->
-    <h2>Latest Projects</h2>
-    <div class="d-flex justify-content-center gap-5">
-      {% for project in latest_projects %}
-      <div class="mx-3 card ctCat" style="width: 18rem">
+  <!-- List of the latest 5 projects -->
+  <h2>Latest Projects</h2>
+  <div class="d-flex justify-content-center gap-5">
+    {% for project in latest_projects %}
+    <div class="mx-3 card ctCat" style="width: 18rem">
+      <a href="{% url 'project_detail' project_id=project.id %}">
         <img src="{{ project.picture.url }}" class="card-img-top" alt="{{ project.title }}" />
-        <div class="card-body">
-          <h5 class="card-title">{{ project.title }}</h5>
-          <p class="card-text">{{ project.details }}</p>
-          <a href="{% url 'project_detail' project_id=project.id %}" class="btn btn-primary">Go to Project</a>
-        </div>
+      </a>
+      <div class="card-body">
+        <h5 class="card-title">{{ project.title }}</h5>
+        <p class="card-text">{{ project.details }}</p>
       </div>
-      {% endfor %}
     </div>
+    {% endfor %}
+  </div>
 
-    <!-- List of categories -->
-    <div class="pt-3">
-      <div class="ctCat card text-center">
-        <div class="card-header">Categories</div>
-        <div class="card-body">
-          <h5 class="card-title">Thank you for Helping People</h5>
-          <p class="card-text">for the people by the people</p>
-          <ul>
-            {% for category in categories %}
+  <!-- List of categories -->
+  <div class="pt-3">
+    <div class="ctCat card text-center">
+      <div class="card-header">Categories</div>
+      <div class="card-body">
+        <h5 class="card-title">Thank you for Helping People</h5>
+        <p class="card-text">for the people by the people</p>
+        <ul>
+          {% for category in categories %}
 
-            <a href="{% url 'category_projects' category.id %}" class="btn btn-secondary">
-              {{ category.name }}
-            </a>
-            {% endfor %}
-          </ul>
-        </div>
+          <a href="{% url 'category_projects' category.id %}" class="btn btn-secondary">
+            {{ category.name }}
+          </a>
+          {% endfor %}
+        </ul>
       </div>
     </div>
   </div>
 </div>
-
-<script>
-  const searchForm = document.getElementById("searchForm");
-  const searchResultsContainer = document.getElementById("searchResults");
-
-  searchForm.addEventListener("submit", (event) => {
-    event.preventDefault();
-
-    const query = searchForm.elements.query.value;
-
-    fetch(`${searchForm.action}?query=${encodeURIComponent(query)}`)
-      .then((response) => response.text())
-      .then((data) => {
-        searchResultsContainer.innerHTML = data;
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  });
-</script>
 {% endblock %}

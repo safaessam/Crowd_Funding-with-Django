@@ -1,47 +1,68 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link
-      rel="stylesheet"
-      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-      integrity="<KEY>"
-      crossorigin="anonymous"
-    />
-    <link rel="stylesheet" href="{% static 'css/base.css' %}" />
-    {% block css %} {% endblock %}
 
-    <title>{% block title %} Crowd-Funding {% endblock %}</title>
-  </head>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+    crossorigin="anonymous" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'css/base.css' %}" />
+  {% block css %} {% endblock %}
 
-  <body>
-    <header>
-      <nav>
-        <ul class="navbar">
-          <div>
-            <li><a href="{% url 'home' %}">Home</a></li>
-            <li><a href="{% url 'create_project' %}">Create a Project</a></li>
-          </div>
-          <div>
-            <li><a href="{% url 'user_profile' %}">{{ request.session.first_name }}'s Profile</a></li>
-            <li><a href="{% url 'signout' %}">Sign Out</a></li>
-          </div>
-        </ul>
-      </nav>
-    </header>
+  <title>{% block title %} Crowd-Funding {% endblock %}</title>
+</head>
 
-    <main>
-      {% block body %}
-      <h1>Crowd-Funding Web application!</h1>
-      {% endblock body %}
-    </main>
+<body>
+  <header>
+    <nav>
+      <ul class="navbar">
+        <div>
+          <li><a href="{% url 'home' %}">Home</a></li>
+          <li><a href="{% url 'create_project' %}">Create a Project</a></li>
+        </div>
+        <div>
+          <li><a href="{% url 'user_profile' %}">{{ request.session.first_name }}'s Profile</a></li>
+          <li><a href="{% url 'signout' %}">Sign Out</a></li>
+        </div>
+      </ul>
+    </nav>
+  </header>
 
-    <footer>
-      {% block footer %}
-      <p>&copy; 2024 Crowd-Funding Web app. All rights reserved ITI.</p>
-      {% endblock footer %}
-    </footer>
-  </body>
+  <main>
+    {% block body %}
+    <h1>Crowd-Funding Web application!</h1>
+    {% endblock body %}
+  </main>
+
+  <footer>
+    {% block footer %}
+    <p>&copy; 2024 Crowd-Funding Web app. All rights reserved ITI.</p>
+    {% endblock footer %}
+  </footer>
+  
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script>
+    const searchForm = document.getElementById("searchForm");
+    const searchResultsContainer = document.getElementById("searchResults");
+
+    searchForm.addEventListener("submit", (event) => {
+      event.preventDefault();
+
+      const query = searchForm.elements.query.value;
+
+      fetch(`${searchForm.action}?query=${encodeURIComponent(query)}`)
+        .then((response) => response.text())
+        .then((data) => {
+          searchResultsContainer.innerHTML = data;
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    });
+  </script>
+</body>
+
 </html>

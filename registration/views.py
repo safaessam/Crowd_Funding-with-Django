@@ -8,7 +8,7 @@ from .forms import (
     SignInForm,
 )
 from registration.models import MyUser, UserEmailVerification
-
+from django.db.models import Avg
 
 def category_projects(request, category_id):
     category = get_object_or_404(Category, id=category_id)
@@ -24,13 +24,16 @@ def category_projects(request, category_id):
 def home(request):
     signed_in = request.session.get("user_email")
     if signed_in:
-        print(f'{request.session["user_email"]} if signed in ')
         latest_projects = Project.objects.filter(end_time__gte=timezone.now()).order_by(
             "-start_time"
         )[:5]
+        
         featured_projects = Project.objects.filter(
             is_featured=True, end_time__gte=timezone.now()
         ).order_by("-start_time")[:5]
+        
+        highest_rated_projects = Project.objects.annotate(avg_rating=Avg('ratings__value')).order_by('-avg_rating')[:5]
+        
         categories = Category.objects.all()
 
         return render(
@@ -39,6 +42,7 @@ def home(request):
             {
                 "latest_projects": latest_projects,
                 "featured_projects": featured_projects,
+                "highest_rated_projects": highest_rated_projects,
                 "categories": categories,
             },
         )
