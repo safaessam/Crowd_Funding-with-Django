@@ -41,9 +41,9 @@
 
   <!-- List of the latest 5 projects -->
   <h2>Latest Projects</h2>
-  <div class="d-flex justify-content-center gap-5">
+  <div class="d-flex justify-content-center gap-5 flex-wrap">
     {% for project in latest_projects %}
-    <div class="mx-3 card ctCat" style="width: 18rem">
+    <div class="mx-3 card ctCat" style="width: 20rem">
       <a href="{% url 'project_detail' project_id=project.id %}">
         <img src="{{ project.picture.url }}" class="card-img-top" alt="{{ project.title }}" />
       </a>
@@ -56,7 +56,7 @@
   </div>
 
   <!-- List of categories -->
-  <div class="pt-3">
+  <div class="pt-5">
     <div class="ctCat card text-center">
       <div class="card-header">Categories</div>
       <div class="card-body">
@@ -64,7 +64,6 @@
         <p class="card-text">for the people by the people</p>
         <ul>
           {% for category in categories %}
-
           <a href="{% url 'category_projects' category.id %}" class="btn btn-secondary">
             {{ category.name }}
           </a>
