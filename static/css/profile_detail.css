@@ -36,7 +36,8 @@ body {
   gap: 1rem;
 }
 
-.profile-picture {
-  width: 250px;
-  height: 250px;
+.profile-picture img {
+  border-radius: 50%;
+  width: 350px;
+  height: 350px;
 }
