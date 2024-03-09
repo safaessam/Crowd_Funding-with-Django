@@ -87,36 +87,26 @@
       {% endfor %}
     </div>
     <!-- List of categories -->
-    <h2>Categories</h2>
-    <ul>
-      {% for category in categories %}
-      <li>
-        <a href="{% url 'category_projects' category.id %}"
-          >{{ category.name }}</a
-        >
-      </li>
-      {% endfor %}
-    </ul>
 
-    <div class="card text-center">
-      <div class="card-header">Featured</div>
-      <div class="card-body">
-        <h5 class="card-title">Special title treatment</h5>
-        <p class="card-text">
-          With supporting text below as a natural lead-in to additional content.
-        </p>
-        <ul>
-          {% for category in categories %}
-          <li>
-            <a
-              href="{% url 'category_projects' category.id %}"
-              class="btn btn-secondary"
-            >
-              {{ category.name }}
-            </a>
-          </li>
-          {% endfor %}
-        </ul>
+    <div class="pt-3">
+      <div class="card text-center">
+        <div class="card-header">Categories</div>
+        <div class="card-body">
+          <h5 class="card-title">Thank you for Helping People</h5>
+          <p class="card-text">for the people by the people</p>
+          <ul>
+            {% for category in categories %}
+            <li>
+              <a
+                href="{% url 'category_projects' category.id %}"
+                class="btn btn-secondary"
+              >
+                {{ category.name }}
+              </a>
+            </li>
+            {% endfor %}
+          </ul>
+        </div>
       </div>
     </div>
 
