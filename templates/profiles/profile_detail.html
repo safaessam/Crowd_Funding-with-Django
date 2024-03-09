@@ -12,24 +12,42 @@
 {% block body %}
 <div class="profile">
     <div class="profile-picture">
-        <img src="{% if user_profile.profile_picture %}{{ user_profile.profile_picture.url }}{% else %}{% static 'images/default.png' %}{% endif %}" alt="Profile Picture">
+        <img src="{% if user_profile.profile_picture %}{{ user_profile.profile_picture.url }}{% else %}{% static 'images/default.png' %}{% endif %}"
+            alt="Profile Picture">
     </div>
     <div class="profile-info">
         <h1>{{ user_profile.first_name }} {{ user_profile.last_name }}</h1>
-        <p>Email: {{ user_profile.email }}</p>
-        <p>Mobile Phone: {{ user_profile.mobile_phone }}</p>
-        
+        <p><b>Email:</b> {{ user_profile.email }}</p>
+        <p><b>Mobile Phone:</b> {{ user_profile.mobile_phone }}</p>
+
         {% if user_profile.birthdate %}
-        <p>Birthdate: {{ user_profile.birthdate }}</p>
+        <p><b>Birthdate:</b> {{ user_profile.birthdate }}</p>
         {% endif %}
-        
+
         {% if user_profile.facebook_profile %}
-        <p>Facebook Profile: <a href="{{ user_profile.facebook_profile }}">{{ user_profile.facebook_profile }}</a></p>
+        <p><b>Facebook Profile:</b> <a href="{{ user_profile.facebook_profile }}">{{ user_profile.facebook_profile }}</a></p>
         {% endif %}
-        
+
         {% if user_profile.country %}
-        <p>Country: {{ user_profile.country }}</p>
+        <p><b>Country:</b> {{ user_profile.country }}</p>
         {% endif %}
     </div>
 </div>
+
+{% if user_profile.project_set.exists %}
+<h2>My Projects</h2>
+<ul>
+    {% for project in user_profile.project_set.all %}
+    <li>
+        <h3>{{ project.title }}</h3>
+        <p>{{ project.details }}</p>
+        <p>Target Amount: ${{ project.target_amount }}</p>
+        <p>Start Time: {{ project.start_time }}</p>
+    </li>
+    {% endfor %}
+</ul>
+{% else %}
+<h3 style="color: rgb(158, 25, 25); text-align:center;margin:15px;font-weight:600">You haven't added any projects yet.</h3>
+{% endif %}
+
 {% endblock %}

@@ -13,42 +13,6 @@
   margin-top: 50px;
 }
 
-.carousel-caption {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  padding: 20px;
-  background-color: rgba(255, 255, 255, 0.25);
-}
-
-.carousel-caption h3 {
-  font-size: 24px;
-  font-weight: bold;
-  margin-bottom: 10px;
-}
-
-.carousel-caption p {
-  margin-bottom: 10px;
-}
-
-.carousel-control-prev-icon,
-.carousel-control-next-icon {
-  background-color: rgba(255, 255, 255, 0.5);
-  color: #000000;
-  border: none;
-  border-radius: 50%;
-  padding: 5px;
-}
-
-.carousel-control-prev-icon {
-  margin-left: -20px;
-}
-
-.carousel-control-next-icon {
-  margin-right: -20px;
-}
-
 .top-rated {
   margin-top: 30px;
 }
@@ -81,14 +45,6 @@
   margin-bottom: 10px;
 }
 
-.card p {
-  margin-bottom: 10px;
-}
-
-.card a:hover {
-  background-color: #0056b3;
-}
-
 #searchForm {
   display: flex;
   margin-bottom: 20px;
@@ -97,14 +53,27 @@
 #searchForm input[type="text"] {
   flex: 1;
   padding: 10px;
+  border-radius: 6px;
+  border: none;
+  background-color: rgba(252, 252, 252, 0.3);
 }
 
 #searchForm button {
   padding: 10px 20px;
-  background-color: #4caf50;
-  color: white;
+  margin-left: 10px;
+  background-color: #2ec5ca;
+  border-radius: 15px;
+  font-size: 1.1rem;
+  color: rgb(45, 45, 45);
   border: none;
   cursor: pointer;
+  font-weight: 600;
+  transition: 0.3s ease;
+}
+
+#searchForm button:hover{
+  background-color: #086c6f;
+  color: #fff;
 }
 
 #searchResults {
