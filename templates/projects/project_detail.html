@@ -37,7 +37,7 @@
     <h3>Donations:</h3>
     <div class="donations">
         {% for donation in project.donations.all %}
-        <p>{{ donation.user.username }} donated {{ donation.amount }}</p>
+        <p>{{ donation.user.first_name }} {{ donation.user.last_name }} donated {{ donation.amount }}</p>
         {% empty %}
         <p>No donations yet.</p>
         {% endfor %}

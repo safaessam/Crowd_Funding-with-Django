@@ -20,8 +20,10 @@ def donate(request, project_id):
     project = get_object_or_404(Project, id=project_id)
     if request.method == "POST":
         amount = request.POST.get("amount")  
+        user_email = request.session.get("user_email")
+        user = MyUser.objects.get(email=user_email)
         donation = Donation.objects.create(
-            project=project, user=request.user, amount=amount
+            project=project, user=user, amount=amount
         )
         return redirect("project_detail", project_id=project.id)
     return render(request, "projects/donate.html", {"project": project})
